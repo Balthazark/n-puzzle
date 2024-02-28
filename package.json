@@ -4,7 +4,6 @@
   "private": true,
   "description": "grebban-n-puzzle",
   "author": "Karl Gunnarsson",
-  "type":"module",
   "keywords": [
     "gatsby"
   ],
@@ -15,7 +14,7 @@
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "typecheck": "tsc --noEmit",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "prettier:format": "prettier --write \"**/*.{ts,tsx,js,md,css,yaml}\""
   },
   "dependencies": {
