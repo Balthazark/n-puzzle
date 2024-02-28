@@ -1,5 +1,8 @@
 # 🚀 Continuous Documentation for Grebban N-Puzzle Code Test
 
+## Deployed site
+[N-puzzle](https://karl-n-puzzle.netlify.app)
+
 ## Introduction
 
 This document outlines my development choices, assumptions, and the given requirements for the Grebban N-Puzzle code test. This document will be committed to version control and updated as I iterate on the code test.
