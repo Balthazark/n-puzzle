@@ -2,8 +2,8 @@ import type { GatsbyConfig } from "gatsby";
 
 const config: GatsbyConfig = {
   siteMetadata: {
-    title: `Grebban N-puzzle`,
-    siteUrl: `https://www.yourdomain.tld`,
+    title: `N-puzzle`,
+    siteUrl: `https://karl-n-puzzle.netlify.app`,
   },
   plugins: ["gatsby-plugin-styled-components"],
 };
