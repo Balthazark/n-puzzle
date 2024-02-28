@@ -25,7 +25,7 @@ jobs:
       run: npx eslint .
 
     - name: Run Tests
-      run: npm run test
+      run: npm run test 
 
     - name: Build Gatsby Project
       run: npm run build

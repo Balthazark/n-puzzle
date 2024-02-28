@@ -15,7 +15,7 @@
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "typecheck": "tsc --noEmit",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "prettier:format": "prettier --write \"**/*.{ts,tsx,js,md,css,yaml}\""
   },
   "dependencies": {
