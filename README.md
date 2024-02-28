@@ -1,6 +1,7 @@
 # 🚀 Continuous Documentation for Grebban N-Puzzle Code Test
 
 ## Deployed site
+
 [N-puzzle](https://karl-n-puzzle.netlify.app)
 
 ## Introduction
