@@ -1,5 +1,9 @@
 # 🚀 Continuous Documentation for Grebban N-Puzzle Code Test
 
+## Deployed site
+
+[N-puzzle](https://karl-n-puzzle.netlify.app)
+
 ## Introduction
 
 This document outlines my development choices, assumptions, and the given requirements for the Grebban N-Puzzle code test. This document will be committed to version control and updated as I iterate on the code test.
@@ -87,4 +91,6 @@ Spec files will be collocated with the file for the respective functionality tha
 
 ## Time spent
 
-- Planning and writing first draft for documentation: 1h
+- Planning and writing first draft for documentation: ~1h
+- Init and config project: ~1h
+- Set up CI/CD pipeline: ~30m
