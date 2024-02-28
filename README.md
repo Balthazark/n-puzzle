@@ -90,4 +90,6 @@ Spec files will be collocated with the file for the respective functionality tha
 
 ## Time spent
 
-- Planning and writing first draft for documentation: 1h
+- Planning and writing first draft for documentation: ~1h
+- Init and config project: ~1h
+- Set up CI/CD pipeline: ~30m
