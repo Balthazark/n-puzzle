@@ -4,7 +4,6 @@
   "private": true,
   "description": "grebban-n-puzzle",
   "author": "Karl Gunnarsson",
-  "type":"module",
   "keywords": [
     "gatsby"
   ],
