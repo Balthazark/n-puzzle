@@ -19,7 +19,7 @@ jobs:
       run: npm install
 
     - name: Check formatting
-      run: prettier:check:ci
+      run: npm run prettier:check:ci
 
     - name: Typecheck
       run: npm run typecheck
