@@ -15,7 +15,8 @@
     "clean": "gatsby clean",
     "typecheck": "tsc --noEmit",
     "test": "jest --passWithNoTests",
-    "prettier:format": "prettier --write \"**/*.{ts,tsx,js,md,css,yaml}\""
+    "prettier:format": "prettier --write \"**/*.{ts,tsx,js,md,css,yaml}\"",
+    "prettier:check:ci": "prettier --check \"**/*.{ts,tsx,js,md,css,yaml}\""
   },
   "dependencies": {
     "@fontsource/open-sans": "^5.0.24",
