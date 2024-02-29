@@ -1,5 +1,5 @@
-import { Board } from "../types/models/Board";
-import { BoardTile } from "../types/models/BoardTile";
+import { Board } from "../types/Board";
+import { BoardTile } from "../types/BoardTile";
 
 export function initializeBoard(rows: number, columns: number): Board {
   const grid: BoardTile[][] = [];
