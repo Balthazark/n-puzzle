@@ -36,6 +36,15 @@ describe("Test suite for board logic utils", () => {
       const lastTile = board.grid[lastRowIndex][lastColumnIndex];
       expect(lastTile.isEmpty).toBe(true);
     });
+    test("Initializes a 4x4 board with correct empty tile indices", () => {
+        const rows = 4;
+        const columns = 4;
+        const {grid, emptyTileRowIndex, emptyTileColumnIndex} = initializeBoard(4, 4);
+        expect(emptyTileRowIndex).toBe(rows - 1);
+        expect(emptyTileColumnIndex).toBe(columns - 1);
+        const emptyTile = grid[emptyTileRowIndex][emptyTileColumnIndex];
+        expect(emptyTile.isEmpty).toBe(true);
+      });
     describe("Tests for shuffling a board", () => {
       test("Shuffle changes the board configuration for a symmetrical 4x4 board", () => {
         const board = initializeBoard(4, 4);
