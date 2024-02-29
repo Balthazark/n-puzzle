@@ -33,7 +33,7 @@ export function initializeBoard(rows: number, columns: number): Board {
   const emptyTileRowIndex = rows - 1;
   const emptyTileColumnIndex = columns - 1;
 
-  return { grid, rows, columns, emptyTileRowIndex, emptyTileColumnIndex};
+  return { grid, rows, columns, emptyTileRowIndex, emptyTileColumnIndex };
 }
 
 export function isSolved(board: Board): boolean {}

@@ -1,89 +1,105 @@
 import { initializeBoard, isSolved, shuffleBoard } from "./BoardUtils";
 
 describe("Test suite for board logic utils", () => {
-  describe("Tests for board initialization", () => {
-    test("Initializes a symmetric board with correct dimensions", () => {
-      const rows = 4;
-      const columns = 4;
-      const board = initializeBoard(rows, columns);
-      expect(board.grid.length).toBe(rows);
-      board.grid.forEach((row) => {
+  describe("Tests for board initialization with equal rows and columns", () => {
+    const rows = 4;
+    const columns = 4;
+    const { grid, emptyTileRowIndex, emptyTileColumnIndex } = initializeBoard(
+      rows,
+      columns,
+    );
+    test("Initializes a 4x4 board with correct dimensions", () => {
+      expect(grid.length).toBe(rows);
+      grid.forEach((row) => {
         expect(row.length).toBe(columns);
       });
     });
-    test("Initializes an unsymmetrical board with correct dimensions", () => {
-      const rows = 4;
-      const columns = 2;
-      const board = initializeBoard(rows, columns);
-      expect(board.grid.length).toBe(rows);
-      board.grid.forEach((row) => {
-        expect(row.length).toBe(columns);
-      });
-    });
-    test("Board contains the correct number of tiles", () => {
-      const rows = 4;
-      const columns = 3;
-      const board = initializeBoard(rows, columns);
-      const totalTiles = board.grid.flat().length;
+    test("A 4x4 board contains the correct number of tiles", () => {
+      const totalTiles = grid.flat().length;
       expect(totalTiles).toBe(rows * columns);
     });
-    test("Last tile of the board is empty", () => {
-      const rows = 4;
-      const columns = 4;
-      const board = initializeBoard(rows, columns);
+    test("The last tile of a 4x4 board is empty", () => {
       const lastRowIndex = rows - 1;
       const lastColumnIndex = columns - 1;
-      const lastTile = board.grid[lastRowIndex][lastColumnIndex];
+      const lastTile = grid[lastRowIndex][lastColumnIndex];
       expect(lastTile.isEmpty).toBe(true);
     });
-    test("Initializes a 4x4 board with correct empty tile indices", () => {
-        const rows = 4;
-        const columns = 4;
-        const {grid, emptyTileRowIndex, emptyTileColumnIndex} = initializeBoard(4, 4);
-        expect(emptyTileRowIndex).toBe(rows - 1);
-        expect(emptyTileColumnIndex).toBe(columns - 1);
-        const emptyTile = grid[emptyTileRowIndex][emptyTileColumnIndex];
-        expect(emptyTile.isEmpty).toBe(true);
-      });
-    describe("Tests for shuffling a board", () => {
-      test("Shuffle changes the board configuration for a symmetrical 4x4 board", () => {
-        const board = initializeBoard(4, 4);
-        const shuffledBoard = shuffleBoard(board);
-        expect(shuffledBoard).not.toEqual(board);
-      });
-      test("Shuffle changes the board configuration for a unsymmetrical 4x2 board", () => {
-        const board = initializeBoard(4, 2);
-        const shuffledBoard = shuffleBoard(board);
-        expect(shuffledBoard).not.toEqual(board);
+    test("A 4x4 board has the correct empty tile indices", () => {
+      expect(emptyTileRowIndex).toBe(rows - 1);
+      expect(emptyTileColumnIndex).toBe(columns - 1);
+      const emptyTile = grid[emptyTileRowIndex][emptyTileColumnIndex];
+      expect(emptyTile.isEmpty).toBe(true);
+    });
+  });
+  describe("Tests for board initialization with unequal rows and columns", () => {
+    const rows = 4;
+    const columns = 2;
+    const { grid, emptyTileRowIndex, emptyTileColumnIndex } = initializeBoard(
+      rows,
+      columns,
+    );
+    test("Initializes a 4x2 board with correct dimensions", () => {
+      expect(grid.length).toBe(rows);
+      grid.forEach((row) => {
+        expect(row.length).toBe(columns);
       });
     });
-    describe("Tests for determining if a board is solved", () => {
-      test("It returns true for an initial 4x4 board in a solved state", () => {
-        const solvedBoard = initializeBoard(4, 4);
-        expect(isSolved(solvedBoard)).toBe(true);
-      });
-      test("It returns true for an initial 4x2 board in a solved state", () => {
-        const solvedBoard = initializeBoard(4, 2);
-        expect(isSolved(solvedBoard)).toBe(true);
-      });
-      test("It returns false for a shuffled 4x4 board", () => {
-        const board = initializeBoard(4, 4);
-        const shuffledBoard = shuffleBoard(board);
-        expect(isSolved(shuffledBoard)).toBe(false);
-      });
-      test("It returns false for a shuffled 4x2 board", () => {
-        const board = initializeBoard(4, 2);
-        const shuffledBoard = shuffleBoard(board);
-        expect(isSolved(shuffledBoard)).toBe(false);
-      });
+    test("A 4x2 board contains the correct number of tiles", () => {
+      const totalTiles = grid.flat().length;
+      expect(totalTiles).toBe(rows * columns);
     });
-    describe("Some additional test for potential edge cases", () => {
-      test("Initializes a 1x1 board correctly", () => {
-        const board = initializeBoard(1, 1);
-        expect(board.grid.length).toBe(1);
-        expect(board.grid[0].length).toBe(1);
-        expect(isSolved(board)).toBe(true);
-      });
+    test("Last tile of a 4x2 board is empty", () => {
+      const lastRowIndex = rows - 1;
+      const lastColumnIndex = columns - 1;
+      const lastTile = grid[lastRowIndex][lastColumnIndex];
+      expect(lastTile.isEmpty).toBe(true);
+    });
+    test("A 4x2 board has the correct empty tile indices", () => {
+      expect(emptyTileRowIndex).toBe(rows - 1);
+      expect(emptyTileColumnIndex).toBe(columns - 1);
+      const emptyTile = grid[emptyTileRowIndex][emptyTileColumnIndex];
+      expect(emptyTile.isEmpty).toBe(true);
+    });
+  });
+
+  describe("Tests for shuffling a board", () => {
+    test("Shuffle changes the board configuration for a 4x4 board", () => {
+      const board = initializeBoard(4, 4);
+      const shuffledBoard = shuffleBoard(board);
+      expect(shuffledBoard).not.toEqual(board);
+    });
+    test("Shuffle changes the board configuration for a 4x2 board", () => {
+      const board = initializeBoard(4, 2);
+      const shuffledBoard = shuffleBoard(board);
+      expect(shuffledBoard).not.toEqual(board);
+    });
+  });
+  describe("Tests for determining if a board is solved", () => {
+    test("It returns true for an initial 4x4 board in a solved state", () => {
+      const solvedBoard = initializeBoard(4, 4);
+      expect(isSolved(solvedBoard)).toBe(true);
+    });
+    test("It returns true for an initial 4x2 board in a solved state", () => {
+      const solvedBoard = initializeBoard(4, 2);
+      expect(isSolved(solvedBoard)).toBe(true);
+    });
+    test("It returns false for a shuffled 4x4 board", () => {
+      const board = initializeBoard(4, 4);
+      const shuffledBoard = shuffleBoard(board);
+      expect(isSolved(shuffledBoard)).toBe(false);
+    });
+    test("It returns false for a shuffled 4x2 board", () => {
+      const board = initializeBoard(4, 2);
+      const shuffledBoard = shuffleBoard(board);
+      expect(isSolved(shuffledBoard)).toBe(false);
+    });
+  });
+  describe("Some additional test for potential edge cases", () => {
+    test("Initializes a 1x1 board correctly", () => {
+      const board = initializeBoard(1, 1);
+      expect(board.grid.length).toBe(1);
+      expect(board.grid[0].length).toBe(1);
+      expect(isSolved(board)).toBe(true);
     });
   });
 });
