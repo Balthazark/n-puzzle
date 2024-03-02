@@ -9,6 +9,7 @@ type Tile = BaseTile & {
 };
 
 type EmptyTile = BaseTile & {
+  value: 0;
   isEmpty: true;
 };
 

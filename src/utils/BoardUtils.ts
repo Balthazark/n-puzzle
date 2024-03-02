@@ -17,6 +17,7 @@ export function initializeBoard(rows: number, columns: number): Board {
             x: i,
             y: j,
             isEmpty: true,
+            value: 0,
           }
         : {
             x: i,

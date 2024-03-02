@@ -30,6 +30,22 @@ describe("Test suite for board logic utils", () => {
       const emptyTile = grid[emptyTileRowIndex][emptyTileColumnIndex];
       expect(emptyTile.isEmpty).toBe(true);
     });
+    test("A 4x4 board has the correct values for the non empty tiles", () => {
+      let expectedValue = 1;
+      for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < columns; j++) {
+          if (!grid[i][j].isEmpty) {
+            expect(grid[i][j].value).toBe(expectedValue);
+            expectedValue++;
+          }
+        }
+      }
+    });
+    test("A 4x4 boards empty tile has a value of 0", () => {
+      const lastRow = grid[rows - 1];
+      const lastTile = lastRow[lastRow.length - 1];
+      expect(lastTile.value).toBe(0);
+    });
   });
   describe("Tests for board initialization with unequal rows and columns", () => {
     const rows = 4;
@@ -60,8 +76,23 @@ describe("Test suite for board logic utils", () => {
       const emptyTile = grid[emptyTileRowIndex][emptyTileColumnIndex];
       expect(emptyTile.isEmpty).toBe(true);
     });
+    test("A 4x2 board has the correct values for the non empty tiles", () => {
+      let expectedValue = 1;
+      for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < columns; j++) {
+          if (!grid[i][j].isEmpty) {
+            expect(grid[i][j].value).toBe(expectedValue);
+            expectedValue++;
+          }
+        }
+      }
+    });
+    test("A 4x2 boards empty tile has a value of 0", () => {
+      const lastRow = grid[rows - 1];
+      const lastTile = lastRow[lastRow.length - 1];
+      expect(lastTile.value).toBe(0);
+    });
   });
-
   describe("Tests for shuffling a board", () => {
     test("Shuffle changes the board configuration for a 4x4 board", () => {
       const board = initializeBoard(4, 4);
