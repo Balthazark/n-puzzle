@@ -4,7 +4,7 @@ import {
   getEmptyTileCoordinates,
   isValidMove,
   getTileCoordinatesForMove,
-  isTileAdjacent
+  isTileAdjacent,
 } from "./TileUtils";
 
 describe("Test suite for tile logic utils", () => {
@@ -33,11 +33,11 @@ describe("Test suite for tile logic utils", () => {
     });
   });
   describe("Tests for getting the coordinates for the tiles to be moved", () => {
-    test("Returns true when two tile coordinates are adjecent", () => {
+    test("Returns true when two tile coordinates are adjacent", () => {
       const coord1 = { x: 2, y: 3 };
       const coord2 = { x: 2, y: 4 };
       expect(isTileAdjacent(coord1, coord2)).toBe(true);
-    })
+    });
     test("Returns an array with the single coordinate for a single tile move", () => {
       const inputTile = { x: 2, y: 3 };
       const tilesToMove = [{ x: 2, y: 3 }];

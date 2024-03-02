@@ -21,8 +21,15 @@ export function isValidMove(board: Board, tileCoordinates: TileCoordinates) {
   return true;
 }
 
-export function isTileAdjacent(firstTile: TileCoordinates, secondTile: TileCoordinates){
-  console.log("Not implemented", firstTile, secondTile)
+export function isTileAdjacent(
+  firstTile: TileCoordinates,
+  secondTile: TileCoordinates,
+) {
+  return (
+    Math.abs(firstTile.x - secondTile.x) +
+      Math.abs(firstTile.y - secondTile.y) ===
+    1
+  );
 }
 
 export function getTileCoordinatesForMove(
