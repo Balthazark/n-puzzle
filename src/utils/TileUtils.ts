@@ -21,6 +21,10 @@ export function isValidMove(board: Board, tileCoordinates: TileCoordinates) {
   return true;
 }
 
+export function isTileAdjacent(firstTile: TileCoordinates, secondTile: TileCoordinates){
+  console.log("Not implemented", firstTile, secondTile)
+}
+
 export function getTileCoordinatesForMove(
   board: Board,
   tileCoordinate: TileCoordinates,
