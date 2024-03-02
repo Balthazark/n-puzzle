@@ -71,5 +71,6 @@ export function getTileCoordinatesForMove(
 }
 
 export function moveTiles(board: Board, tileCoordinates: TileCoordinates[]) {
+  return board;
   console.log("Not implemented", board, tileCoordinates);
 }

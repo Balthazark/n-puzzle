@@ -6,6 +6,7 @@ import {
   getTileCoordinatesForMove,
   isTileAdjacent,
   getNeighborCoordinates,
+  moveTiles,
 } from "./TileUtils";
 
 describe("Test suite for tile logic utils", () => {
@@ -79,6 +80,12 @@ describe("Test suite for tile logic utils", () => {
     });
   });
   describe.skip("Tests for returning the new board after a move", () => {
+    test("Updates the Board with correct coordinates for the new empty tile", () => {
+      const tileToMove = [{ x: 2, y: 3 }];
+      const newBoard = moveTiles(board, tileToMove);
+      expect(newBoard.emptyTileRowCoord).toEqual(2);
+      expect(newBoard.emptyTileColumnCoord).toEqual(3);
+    });
     test("Moves a single tile to the coordinate of the empty tile", () => {});
     test("Moves the empty tile to the correct coordinate after a single tile move", () => {});
     test("Moves multiple tiles to the correct coordinates", () => {});
