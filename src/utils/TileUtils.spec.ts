@@ -79,16 +79,16 @@ describe("Test suite for tile logic utils", () => {
       expect(coordinates).toEqual(tilesToMove);
     });
   });
-  describe.skip("Tests for returning the new board after a move", () => {
+  describe("Tests for returning the new board after a move", () => {
     test("Updates the Board with correct coordinates for the new empty tile", () => {
-      const tileToMove = [{ x: 2, y: 3 }];
-      const newBoard = moveTiles(board, tileToMove);
+      const inputTile = { x: 2, y: 3 };
+      const newBoard = moveTiles(board, inputTile);
       expect(newBoard.emptyTileRowCoord).toEqual(2);
       expect(newBoard.emptyTileColumnCoord).toEqual(3);
     });
-    test("Moves a single tile to the coordinate of the empty tile", () => {});
-    test("Moves the empty tile to the correct coordinate after a single tile move", () => {});
-    test("Moves multiple tiles to the correct coordinates", () => {});
-    test("Moves the empty tile to the correct coordinate after a multi tile move", () => {});
+    test.skip("Moves a single tile to the coordinate of the empty tile", () => {});
+    test.skip("Moves the empty tile to the correct coordinate after a single tile move", () => {});
+    test.skip("Moves multiple tiles to the correct coordinates", () => {});
+    test.skip("Moves the empty tile to the correct coordinate after a multi tile move", () => {});
   });
 });

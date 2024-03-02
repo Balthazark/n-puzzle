@@ -70,7 +70,13 @@ export function getTileCoordinatesForMove(
   return [tileCoordinate, ...neighborCoordinates];
 }
 
-export function moveTiles(board: Board, tileCoordinates: TileCoordinates[]) {
-  return board;
-  console.log("Not implemented", board, tileCoordinates);
+export function moveTiles(board: Board, inputTileCoordinate: TileCoordinates) {
+  const newBoard: Board = {
+    grid: [...board.grid],
+    rows: board.rows,
+    columns: board.columns,
+    emptyTileRowCoord: inputTileCoordinate.x,
+    emptyTileColumnCoord: inputTileCoordinate.y,
+  };
+  return newBoard;
 }
