@@ -1,5 +1,6 @@
 import { Board } from "../types/Board";
 import { BoardTile } from "../types/BoardTile";
+import { moveTiles } from "./TileUtils";
 
 export function initializeBoard(rows: number, columns: number): Board {
   const grid: BoardTile[][] = [];
@@ -50,4 +51,27 @@ export function isSolved(board: Board): boolean {
   return areTilesInAscendingOrder && isEmptyTileInCorrectPosition;
 }
 
-export function shuffleBoard(board: Board): Board {}
+export function shuffleBoard(board: Board): Board {
+  const { rows, columns } = board;
+  let shuffledBoard = board;
+
+  const numIterations = rows * columns * 100;
+
+  for (let i = 0; i < numIterations; i++) {
+    const adjacentTiles = [
+      { x: board.emptyTileRowCoord - 1, y: board.emptyTileColumnCoord },
+      { x: board.emptyTileRowCoord + 1, y: board.emptyTileColumnCoord },
+      { x: board.emptyTileRowCoord, y: board.emptyTileColumnCoord - 1 },
+      { x: board.emptyTileRowCoord, y: board.emptyTileColumnCoord + 1 },
+    ].filter(
+      (tile) => tile.x >= 0 && tile.x < rows && tile.y >= 0 && tile.y < columns,
+    );
+
+    const randomIndex = Math.floor(Math.random() * adjacentTiles.length);
+    const selectedTile = adjacentTiles[randomIndex];
+
+    shuffledBoard = moveTiles(shuffledBoard, selectedTile);
+  }
+
+  return shuffledBoard;
+}
