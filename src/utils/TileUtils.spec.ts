@@ -1,6 +1,10 @@
 import { Board } from "../types/Board";
 import { initializeBoard } from "./BoardUtils";
-import { getEmptyTileCoordinates, isValidMove } from "./TileUtils";
+import {
+  getEmptyTileCoordinates,
+  isValidMove,
+  getTileCoordinatesForMove,
+} from "./TileUtils";
 
 describe("Test suite for tile logic utils", () => {
   let board: Board;
@@ -26,5 +30,24 @@ describe("Test suite for tile logic utils", () => {
       const invalidMove = isValidMove(board, { x: 1, y: 1 });
       expect(invalidMove).toBe(false);
     });
+  });
+  describe("Tests for getting the coordinates for the tiles to be moved", () => {
+    test("Returns an array with the single coordinate for a single tile move", () => {
+      const tileToMove = { x: 2, y: 3 };
+      const coordinates = getTileCoordinatesForMove(board, tileToMove);
+      expect(coordinates).toEqual([tileToMove]);
+    });
+
+    test("Returns an array of tile coordinates for multiple tile moves", () => {
+      const tilesToMove = { x: 1, y: 3 };
+      const coordinates = getTileCoordinatesForMove(board, tilesToMove);
+      expect(coordinates).toEqual(tilesToMove);
+    });
+  });
+  describe.skip("Tests for returning the new board after a move", () => {
+    test("Moves a single tile to the coordinate of the empty tile", () => {});
+    test("Moves the empty tile to the correct coordinate after a single tile move", () => {});
+    test("Moves multiple tiles to the correct coordinates", () => {});
+    test("Moves the empty tile to the correct coordinate after a multi tile move", () => {});
   });
 });
