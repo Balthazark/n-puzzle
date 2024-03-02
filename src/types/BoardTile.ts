@@ -14,3 +14,4 @@ type EmptyTile = BaseTile & {
 };
 
 export type BoardTile = Tile | EmptyTile;
+export type TileCoordinates = Pick<Tile, "x" | "y">;
