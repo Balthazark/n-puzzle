@@ -33,14 +33,19 @@ describe("Test suite for tile logic utils", () => {
   });
   describe("Tests for getting the coordinates for the tiles to be moved", () => {
     test("Returns an array with the single coordinate for a single tile move", () => {
-      const tileToMove = { x: 2, y: 3 };
-      const coordinates = getTileCoordinatesForMove(board, tileToMove);
-      expect(coordinates).toEqual([tileToMove]);
+      const inputTile = { x: 2, y: 3 };
+      const tilesToMove = [{ x: 2, y: 3 }];
+      const coordinates = getTileCoordinatesForMove(board, inputTile);
+      expect(coordinates).toEqual([tilesToMove]);
     });
 
     test("Returns an array of tile coordinates for multiple tile moves", () => {
-      const tilesToMove = { x: 1, y: 3 };
-      const coordinates = getTileCoordinatesForMove(board, tilesToMove);
+      const tile = { x: 1, y: 3 };
+      const tilesToMove = [
+        { x: 1, y: 3 },
+        { x: 2, y: 3 },
+      ];
+      const coordinates = getTileCoordinatesForMove(board, tile);
       expect(coordinates).toEqual(tilesToMove);
     });
   });
