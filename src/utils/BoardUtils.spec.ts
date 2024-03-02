@@ -1,3 +1,4 @@
+import { Board } from "../types/Board";
 import { initializeBoard, isSolved, shuffleBoard } from "./BoardUtils";
 
 describe("Test suite for board logic utils", () => {
@@ -131,6 +132,25 @@ describe("Test suite for board logic utils", () => {
       expect(board.grid.length).toBe(1);
       expect(board.grid[0].length).toBe(1);
       expect(isSolved(board)).toBe(true);
+    });
+    test("It returns false for an almost solved board with the empty tile in the start position", () => {
+      const board: Board = {
+        grid: [
+          [
+            { value: 0, isEmpty: true },
+            { value: 1, isEmpty: false },
+          ],
+          [
+            { value: 2, isEmpty: false },
+            { value: 3, isEmpty: false },
+          ],
+        ],
+        rows: 2,
+        columns: 2,
+        emptyTileRowCoord: 0,
+        emptyTileColumnCoord: 0,
+      };
+      expect(isSolved(board)).toBe(false);
     });
   });
 });

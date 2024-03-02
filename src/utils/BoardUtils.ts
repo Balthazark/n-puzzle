@@ -33,5 +33,21 @@ export function initializeBoard(rows: number, columns: number): Board {
   return { grid, rows, columns, emptyTileRowCoord, emptyTileColumnCoord };
 }
 
-export function isSolved(board: Board): boolean {}
+export function isSolved(board: Board): boolean {
+  const { grid, emptyTileRowCoord, emptyTileColumnCoord } = board;
+
+  const areTilesInAscendingOrder = grid.flat().every((tile, index) => {
+    if (!tile.isEmpty) {
+      return tile.value === index + 1;
+    }
+    return true;
+  });
+
+  const isEmptyTileInCorrectPosition =
+    emptyTileRowCoord === grid.length - 1 &&
+    emptyTileColumnCoord === grid[0].length - 1;
+
+  return areTilesInAscendingOrder && isEmptyTileInCorrectPosition;
+}
+
 export function shuffleBoard(board: Board): Board {}
