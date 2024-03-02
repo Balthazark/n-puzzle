@@ -5,6 +5,7 @@ import {
   isValidMove,
   getTileCoordinatesForMove,
   isTileAdjacent,
+  getNeighborCoordinates,
 } from "./TileUtils";
 
 describe("Test suite for tile logic utils", () => {
@@ -38,21 +39,32 @@ describe("Test suite for tile logic utils", () => {
       const coord2 = { x: 2, y: 4 };
       expect(isTileAdjacent(coord1, coord2)).toBe(true);
     });
-    test("Returns an array with the single coordinate for a single tile move", () => {
+    test("Return the neighbor between a tile and the empty tile", () => {
+      const emptyTile = getEmptyTileCoordinates(board);
+      const tile = { x: 1, y: 3 };
+      const tilesToMove = [
+        { x: 1, y: 3 },
+        { x: 2, y: 3 },
+      ];
+      const coordinates = getNeighborCoordinates(tile, emptyTile);
+      expect(coordinates).toEqual(tilesToMove);
+    });
+
+    test("Returns an array with the single coordinate for a single tile valid move", () => {
       const inputTile = { x: 2, y: 3 };
       const tilesToMove = [{ x: 2, y: 3 }];
       const coordinates = getTileCoordinatesForMove(board, inputTile);
       expect(coordinates).toEqual([tilesToMove]);
     });
 
-    test("Returns an array of tile coordinates for multiple tile moves", () => {
-      const tile = { x: 1, y: 3 };
+    test("Returns an array of tile coordinates for multiple tile valid moves", () => {
+      const inputTile = { x: 1, y: 3 };
       const tilesToMove = [
         { x: 1, y: 3 },
         { x: 2, y: 3 },
       ];
-      const coordinates = getTileCoordinatesForMove(board, tile);
-      expect(coordinates).toEqual(tilesToMove);
+      const coordinates = getTileCoordinatesForMove(board, inputTile);
+      expect(coordinates).toEqual([tilesToMove]);
     });
   });
   describe.skip("Tests for returning the new board after a move", () => {

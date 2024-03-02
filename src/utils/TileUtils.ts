@@ -32,6 +32,13 @@ export function isTileAdjacent(
   );
 }
 
+export function getNeighborCoordinates(
+  tile: TileCoordinates,
+  emptyTile: TileCoordinates,
+) {
+  console.log("Not implemented", tile, emptyTile);
+}
+
 export function getTileCoordinatesForMove(
   board: Board,
   tileCoordinate: TileCoordinates,
