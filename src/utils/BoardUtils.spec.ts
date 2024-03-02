@@ -4,7 +4,7 @@ describe("Test suite for board logic utils", () => {
   describe("Tests for board initialization with equal rows and columns", () => {
     const rows = 4;
     const columns = 4;
-    const { grid, emptyTileRowIndex, emptyTileColumnIndex } = initializeBoard(
+    const { grid, emptyTileRowCoord, emptyTileColumnCoord } = initializeBoard(
       rows,
       columns,
     );
@@ -25,9 +25,9 @@ describe("Test suite for board logic utils", () => {
       expect(lastTile.isEmpty).toBe(true);
     });
     test("A 4x4 board has the correct empty tile indices", () => {
-      expect(emptyTileRowIndex).toBe(rows - 1);
-      expect(emptyTileColumnIndex).toBe(columns - 1);
-      const emptyTile = grid[emptyTileRowIndex][emptyTileColumnIndex];
+      expect(emptyTileRowCoord).toBe(rows - 1);
+      expect(emptyTileColumnCoord).toBe(columns - 1);
+      const emptyTile = grid[emptyTileRowCoord][emptyTileColumnCoord];
       expect(emptyTile.isEmpty).toBe(true);
     });
     test("A 4x4 board has the correct values for the non empty tiles", () => {
@@ -50,7 +50,7 @@ describe("Test suite for board logic utils", () => {
   describe("Tests for board initialization with unequal rows and columns", () => {
     const rows = 4;
     const columns = 2;
-    const { grid, emptyTileRowIndex, emptyTileColumnIndex } = initializeBoard(
+    const { grid, emptyTileRowCoord, emptyTileColumnCoord } = initializeBoard(
       rows,
       columns,
     );
@@ -71,9 +71,9 @@ describe("Test suite for board logic utils", () => {
       expect(lastTile.isEmpty).toBe(true);
     });
     test("A 4x2 board has the correct empty tile indices", () => {
-      expect(emptyTileRowIndex).toBe(rows - 1);
-      expect(emptyTileColumnIndex).toBe(columns - 1);
-      const emptyTile = grid[emptyTileRowIndex][emptyTileColumnIndex];
+      expect(emptyTileRowCoord).toBe(rows - 1);
+      expect(emptyTileColumnCoord).toBe(columns - 1);
+      const emptyTile = grid[emptyTileRowCoord][emptyTileColumnCoord];
       expect(emptyTile.isEmpty).toBe(true);
     });
     test("A 4x2 board has the correct values for the non empty tiles", () => {

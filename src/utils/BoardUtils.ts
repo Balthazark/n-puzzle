@@ -31,10 +31,10 @@ export function initializeBoard(rows: number, columns: number): Board {
     grid.push(row);
   }
 
-  const emptyTileRowIndex = rows - 1;
-  const emptyTileColumnIndex = columns - 1;
+  const emptyTileRowCoord = rows - 1;
+  const emptyTileColumnCoord = columns - 1;
 
-  return { grid, rows, columns, emptyTileRowIndex, emptyTileColumnIndex };
+  return { grid, rows, columns, emptyTileRowCoord, emptyTileColumnCoord };
 }
 
 export function isSolved(board: Board): boolean {}
