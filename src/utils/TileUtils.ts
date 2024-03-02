@@ -59,7 +59,15 @@ export function getTileCoordinatesForMove(
   board: Board,
   tileCoordinate: TileCoordinates,
 ) {
-  console.log("Not implemented", board, tileCoordinate);
+  const emptyTileCoordinates = getEmptyTileCoordinates(board);
+  if (isTileAdjacent(tileCoordinate, emptyTileCoordinates)) {
+    return [tileCoordinate];
+  }
+  const neighborCoordinates = getNeighborCoordinates(
+    tileCoordinate,
+    emptyTileCoordinates,
+  );
+  return [tileCoordinate, ...neighborCoordinates];
 }
 
 export function moveTiles(board: Board, tileCoordinates: TileCoordinates[]) {
