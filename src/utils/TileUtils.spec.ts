@@ -86,7 +86,40 @@ describe("Test suite for tile logic utils", () => {
       expect(newBoard.emptyTileRowCoord).toEqual(2);
       expect(newBoard.emptyTileColumnCoord).toEqual(3);
     });
-    test.skip("Moves a single tile to the coordinate of the empty tile", () => {});
+    test("Moves a single tile to the coordinate of the empty tile", () => {
+      const inputTile = { x: 2, y: 3 };
+      const expectedBoard = {
+        grid: [
+          [
+            { x: 0, y: 0, value: 1, isEmpty: false },
+            { x: 0, y: 1, value: 2, isEmpty: false },
+            { x: 0, y: 2, value: 3, isEmpty: false },
+            { x: 0, y: 3, value: 4, isEmpty: false },
+
+            { x: 1, y: 0, value: 5, isEmpty: false },
+            { x: 1, y: 1, value: 6, isEmpty: false },
+            { x: 1, y: 2, value: 7, isEmpty: false },
+            { x: 1, y: 3, value: 8, isEmpty: false },
+
+            { x: 2, y: 0, value: 9, isEmpty: false },
+            { x: 2, y: 1, value: 10, isEmpty: false },
+            { x: 2, y: 2, value: 11, isEmpty: false },
+            { x: 2, y: 3, value: 0, isEmpty: true },
+
+            { x: 3, y: 0, value: 13, isEmpty: false },
+            { x: 3, y: 1, value: 14, isEmpty: false },
+            { x: 3, y: 2, value: 15, isEmpty: false },
+            { x: 3, y: 3, value: 12, isEmpty: false },
+          ],
+        ],
+        rows: 4,
+        columns: 4,
+        emptyTileRowIndex: 2,
+        emptyTileColumnIndex: 3,
+      };
+      const newBoard = moveTiles(board, inputTile);
+      expect(newBoard).toEqual(expectedBoard);
+    });
     test.skip("Moves the empty tile to the correct coordinate after a single tile move", () => {});
     test.skip("Moves multiple tiles to the correct coordinates", () => {});
     test.skip("Moves the empty tile to the correct coordinate after a multi tile move", () => {});
