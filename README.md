@@ -74,6 +74,7 @@ Spec files will be collocated with the file for the respective functionality tha
 - Reading up on the original 15 puzzle, I discovered that if tiles are a randomized, the game might end up in state that is not solvable, about half the time.
   [Wikipedia reference](https://en.wikipedia.org/wiki/15_Puzzle) Thus I assume it to be a requirement that the puzzle is actually solvable.
 - At first I though about adding a util function for checking if the puzzle is solvable, that runs after trying to initialize the board. But I had some trouble verifying that the algorithm for checking solvability would work for boards of different row and column length. So I settled for another approach: Starting with a solved puzzle and making random moves to shuffle ensures all puzzle configurations are solvable, much how you would shuffle a Rubik's cube in real life. I assume that this will still fulfill the requirement of tiles being randomized.
+- To make use of union types, I assume that the empty tile has a value of 0.
 
 ## Requirements
 
