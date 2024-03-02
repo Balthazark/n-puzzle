@@ -36,7 +36,23 @@ export function getNeighborCoordinates(
   tile: TileCoordinates,
   emptyTile: TileCoordinates,
 ) {
-  console.log("Not implemented", tile, emptyTile);
+  const neighborCoordinates: TileCoordinates[] = [];
+
+  if (tile.x === emptyTile.x) {
+    const startCoordinate = Math.min(tile.y, emptyTile.y) + 1;
+    const endCoordinate = Math.max(tile.y, emptyTile.y);
+    for (let y = startCoordinate; y < endCoordinate; y++) {
+      neighborCoordinates.push({ x: tile.x, y });
+    }
+  } else if (tile.y === emptyTile.y) {
+    const startCoordinate = Math.min(tile.x, emptyTile.x) + 1;
+    const endCoordinate = Math.max(tile.x, emptyTile.x);
+    for (let x = startCoordinate; x < endCoordinate; x++) {
+      neighborCoordinates.push({ x, y: tile.y });
+    }
+  }
+
+  return neighborCoordinates;
 }
 
 export function getTileCoordinatesForMove(

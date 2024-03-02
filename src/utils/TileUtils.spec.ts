@@ -39,15 +39,26 @@ describe("Test suite for tile logic utils", () => {
       const coord2 = { x: 2, y: 4 };
       expect(isTileAdjacent(coord1, coord2)).toBe(true);
     });
-    test("Return the neighbor between a tile and the empty tile", () => {
+    test("Return the neighbor between a tile and the empty tile in a column", () => {
       const emptyTile = getEmptyTileCoordinates(board);
-      const tile = { x: 1, y: 3 };
-      const tilesToMove = [
+      const tile = { x: 0, y: 3 };
+      const neighborCoordinates = [
         { x: 1, y: 3 },
         { x: 2, y: 3 },
       ];
       const coordinates = getNeighborCoordinates(tile, emptyTile);
-      expect(coordinates).toEqual(tilesToMove);
+      expect(coordinates).toEqual(neighborCoordinates);
+    });
+
+    test("Return the neighbor between a tile and the empty tile in a row", () => {
+      const emptyTile = getEmptyTileCoordinates(board);
+      const tile = { x: 3, y: 0 };
+      const neighborCoordinates = [
+        { x: 3, y: 1 },
+        { x: 3, y: 2 },
+      ];
+      const coordinates = getNeighborCoordinates(tile, emptyTile);
+      expect(coordinates).toEqual(neighborCoordinates);
     });
 
     test("Returns an array with the single coordinate for a single tile valid move", () => {
