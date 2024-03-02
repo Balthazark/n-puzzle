@@ -5,20 +5,13 @@ export function getEmptyTileCoordinates(board: Board) {
   return { x: board.emptyTileRowCoord, y: board.emptyTileColumnCoord };
 }
 export function isValidMove(board: Board, tileCoordinates: TileCoordinates) {
-  const emptyTileRowCoord = board.emptyTileRowCoord;
-  const emptyTileColumnCoord = board.emptyTileColumnCoord;
-  const tileRowCoord = tileCoordinates.x;
-  const tileColumnCoord = tileCoordinates.y;
+  const { emptyTileRowCoord, emptyTileColumnCoord } = board;
+  const { x: tileRowCoord, y: tileColumnCoord } = tileCoordinates;
 
-  if (
-    !(
-      emptyTileRowCoord === tileRowCoord ||
-      emptyTileColumnCoord === tileColumnCoord
-    )
-  ) {
-    return false;
-  }
-  return true;
+  return (
+    emptyTileRowCoord === tileRowCoord ||
+    emptyTileColumnCoord === tileColumnCoord
+  );
 }
 
 export function isTileAdjacent(
