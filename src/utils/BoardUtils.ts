@@ -14,14 +14,10 @@ export function initializeBoard(rows: number, columns: number): Board {
 
       const boardTile: BoardTile = isLastTile
         ? {
-            x: i,
-            y: j,
             isEmpty: true,
             value: 0,
           }
         : {
-            x: i,
-            y: j,
             isEmpty: false,
             value: value,
           };

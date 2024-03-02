@@ -1,17 +1,18 @@
 type BaseTile = {
-  x: number;
-  y: number;
+  value: number;
 };
 
 type Tile = BaseTile & {
-  value: number;
   isEmpty: false;
 };
 
 type EmptyTile = BaseTile & {
-  value: 0;
   isEmpty: true;
+  value: 0;
 };
 
 export type BoardTile = Tile | EmptyTile;
-export type TileCoordinates = Pick<Tile, "x" | "y">;
+export type TileCoordinates = {
+  x: number;
+  y: number;
+};

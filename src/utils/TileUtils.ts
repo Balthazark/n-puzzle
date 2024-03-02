@@ -60,9 +60,7 @@ export function getTileCoordinatesForMove(
   tileCoordinate: TileCoordinates,
 ) {
   const emptyTileCoordinates = getEmptyTileCoordinates(board);
-  if (isTileAdjacent(tileCoordinate, emptyTileCoordinates)) {
-    return [tileCoordinate];
-  }
+
   const neighborCoordinates = getNeighborCoordinates(
     tileCoordinate,
     emptyTileCoordinates,
@@ -71,12 +69,24 @@ export function getTileCoordinatesForMove(
 }
 
 export function moveTiles(board: Board, inputTileCoordinate: TileCoordinates) {
-  const newBoard: Board = {
-    grid: [...board.grid],
-    rows: board.rows,
-    columns: board.columns,
-    emptyTileRowCoord: inputTileCoordinate.x,
-    emptyTileColumnCoord: inputTileCoordinate.y,
-  };
-  return newBoard;
+  const newGrid = board.grid.map((row) => [...row]);
+  const emptyTileCoordinates = getEmptyTileCoordinates(board);
+
+  if (isTileAdjacent(inputTileCoordinate, emptyTileCoordinates)) {
+    newGrid[emptyTileCoordinates.x][emptyTileCoordinates.y] =
+      board.grid[inputTileCoordinate.x][inputTileCoordinate.y];
+    newGrid[inputTileCoordinate.x][inputTileCoordinate.y] =
+      board.grid[emptyTileCoordinates.x][emptyTileCoordinates.y];
+
+    const newBoard: Board = {
+      grid: newGrid,
+      rows: board.rows,
+      columns: board.columns,
+      emptyTileRowCoord: inputTileCoordinate.x,
+      emptyTileColumnCoord: inputTileCoordinate.y,
+    };
+
+    return newBoard;
+  }
+  return board;
 }
