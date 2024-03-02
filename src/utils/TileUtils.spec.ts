@@ -80,13 +80,18 @@ describe("Test suite for tile logic utils", () => {
     });
   });
   describe("Tests for returning the new board after a move", () => {
+    test("Returns the same board if a invalid move was chosen", () => {
+      const inputTile = { x: 0, y: 0 };
+      const newBoard = moveTiles(board, inputTile);
+      expect(board).toEqual(newBoard);
+    });
     test("Updates the Board with correct coordinates for the new empty tile", () => {
       const inputTile = { x: 2, y: 3 };
       const newBoard = moveTiles(board, inputTile);
       expect(newBoard.emptyTileRowCoord).toEqual(2);
       expect(newBoard.emptyTileColumnCoord).toEqual(3);
     });
-    test("Moves a single tile to the coordinate of the empty tile", () => {
+    test("Swaps a single tile with the empty tile", () => {
       const inputTile = { x: 2, y: 3 };
       const expectedBoard: Board = {
         grid: [
@@ -123,8 +128,79 @@ describe("Test suite for tile logic utils", () => {
       const newBoard = moveTiles(board, inputTile);
       expect(newBoard).toEqual(expectedBoard);
     });
-    test.skip("Moves the empty tile to the correct coordinate after a single tile move", () => {});
-    test.skip("Moves multiple tiles to the correct coordinates", () => {});
-    test.skip("Moves the empty tile to the correct coordinate after a multi tile move", () => {});
+    test("Moves multiple tiles and the empty tile vertically to the correct coordinates", () => {
+      const inputTile = { x: 1, y: 3 };
+      const expectedBoard: Board = {
+        grid: [
+          [
+            { value: 1, isEmpty: false },
+            { value: 2, isEmpty: false },
+            { value: 3, isEmpty: false },
+            { value: 4, isEmpty: false },
+          ],
+          [
+            { value: 5, isEmpty: false },
+            { value: 6, isEmpty: false },
+            { value: 7, isEmpty: false },
+            { value: 0, isEmpty: true },
+          ],
+          [
+            { value: 9, isEmpty: false },
+            { value: 10, isEmpty: false },
+            { value: 11, isEmpty: false },
+            { value: 8, isEmpty: false },
+          ],
+          [
+            { value: 13, isEmpty: false },
+            { value: 14, isEmpty: false },
+            { value: 15, isEmpty: false },
+            { value: 12, isEmpty: false },
+          ],
+        ],
+        rows: 4,
+        columns: 4,
+        emptyTileRowCoord: 1,
+        emptyTileColumnCoord: 3,
+      };
+      const newBoard = moveTiles(board, inputTile);
+      expect(newBoard).toEqual(expectedBoard);
+    });
+    test("Moves multiple tiles and the empty tile vertically to the correct coordinates", () => {
+      const inputTile = { x: 3, y: 0 };
+      const expectedBoard: Board = {
+        grid: [
+          [
+            { value: 1, isEmpty: false },
+            { value: 2, isEmpty: false },
+            { value: 3, isEmpty: false },
+            { value: 4, isEmpty: false },
+          ],
+          [
+            { value: 5, isEmpty: false },
+            { value: 6, isEmpty: false },
+            { value: 7, isEmpty: false },
+            { value: 8, isEmpty: false },
+          ],
+          [
+            { value: 9, isEmpty: false },
+            { value: 10, isEmpty: false },
+            { value: 11, isEmpty: false },
+            { value: 12, isEmpty: false },
+          ],
+          [
+            { value: 0, isEmpty: true },
+            { value: 13, isEmpty: false },
+            { value: 14, isEmpty: false },
+            { value: 15, isEmpty: false },
+          ],
+        ],
+        rows: 4,
+        columns: 4,
+        emptyTileRowCoord: 3,
+        emptyTileColumnCoord: 0,
+      };
+      const newBoard = moveTiles(board, inputTile);
+      expect(newBoard).toEqual(expectedBoard);
+    });
   });
 });
