@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { initializeBoard } from "../utils/BoardUtils";
+import { initializeBoard, shuffleBoard } from "../utils/BoardUtils";
 
 const useBoard = (rows: number, columns: number) => {
-  const [board, setBoard] = useState(() => initializeBoard(rows, columns));
+  const [board, setBoard] = useState(() => shuffleBoard(initializeBoard(rows, columns)));
   const [isSolved, setIsSolved] = useState(false);
 
   return { board, isSolved };
