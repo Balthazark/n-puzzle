@@ -59,9 +59,12 @@ A small CI/CD pipeline was added to enforce code quality.
 
 Outlined is a an initial structure focusing on simplicity and scalability:
 
+- `src/types`: Contains the types that were used for modeling the n-puzzle game.
+- `src/utils`: Houses pure utility functions for the business logic of the application. For instance, the shuffle algorithm and move tiles function, which enables ease of unit testing isolated from React component lifecycles or state updates.
 - `src/components`: Contains all React UI components, with logic and styles collocated for ease of development.
-- `src/utils`: Houses pure utility functions like the shuffle algorithm and move tiles function, which enables ease of unit testing isolated from React component lifecycles or state updates.
-- `src/hooks`: Custom React hooks for managing stateful logic, such as the game state.
+- `src/pages`: The actual pages of the web application. Contains the main page and the generated and modified 404 page from the Gatsby init.
+- `src/hooks`: Folder for contating hooks, in this case, the usePuzzle hook to hook into functionality implemented in the util functions.
+- `src/styles`: Contains themes, in this case, only the light theme for now and some global styles like setting the font to Open Sans.
 
 Spec files will be collocated with the file for the respective functionality that they test for ease of navigation in the code base.
 
@@ -79,17 +82,19 @@ Spec files will be collocated with the file for the respective functionality tha
 
 - [ ] The page must be responsive and work on mobile, tablet, etc.
 - [ ] The tiles must be numbered from 1 upwards, with exactly one empty space.
-- [ ] Tiles are moved by clicking on a tile in the same column or row as the empty square.
+- [ ] Tiles are moved by clicking on a tile in the same column or row as the empty square and multiple tiles can be moved.
 - [ ] Implement a shuffle function to randomize the tiles, ensuring the puzzle remains solvable.
-- [ ] Utilize the Google font Open Sans for all text.
+- [ ] Puzzle tiles should be shuffled in the initial state.
+- [x] Utilize the Google font Open Sans for all text.
 - [ ] Display a message or indication when the user solves the puzzle.
-- [ ] Include unit and component tests to validate the game's business logic and UI components.
 
 ## Extras
 
-- While UI for dynamic configuration by the user is not required, it would be nice to have! Would enable ease of visual testing for responsive design as well.
+- [ ] While UI for dynamic configuration by the user is not required, it would be nice to have! Would enable ease of visual testing for responsive design as well.
 
 ## Time spent
+
+Down below is a rough time estimate of time spent for the code test.
 
 - Planning and writing first draft for documentation: ~1h
 - Init and config project: ~1h
