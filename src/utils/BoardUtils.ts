@@ -112,6 +112,7 @@ export function getNewEmptyTileCoords(
   throw new Error("Empty tile not found.");
 }
 
+//TODO, guard against the unlikely event that shuffle function walks back to a solved state.
 export function shuffleBoard(board: Board): Board {
   const { grid, rows, columns } = board;
 
