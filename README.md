@@ -63,7 +63,7 @@ Outlined is a an initial structure focusing on simplicity and scalability:
 - `src/utils`: Houses pure utility functions for the business logic of the application. For instance, the shuffle algorithm and move tiles function, which enables ease of unit testing isolated from React component lifecycles or state updates.
 - `src/components`: Contains all React UI components, with logic and styles collocated for ease of development.
 - `src/pages`: The actual pages of the web application. Contains the main page and the generated and modified 404 page from the Gatsby init.
-- `src/hooks`: Folder for contating hooks, in this case, the usePuzzle hook to hook into functionality implemented in the util functions.
+- `src/hooks`: Folder for contating hooks, in this case, the useBoard hook to hook into functionality implemented in the util functions.
 - `src/styles`: Contains themes, in this case, only the light theme for now and some global styles like setting the font to Open Sans.
 
 Spec files will be collocated with the file for the respective functionality that they test for ease of navigation in the code base.
