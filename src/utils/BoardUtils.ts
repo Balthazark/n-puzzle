@@ -12,7 +12,7 @@ export function calculateTaxicabDistance(
   );
 }
 
-export function countInversions(grid: BoardTile[]) {
+export function countInversions(grid: BoardTile[][]) {
   let inversionCount = 0;
   const flatTiles = grid.flat();
 
@@ -26,11 +26,20 @@ export function countInversions(grid: BoardTile[]) {
   return inversionCount;
 }
 
-export function isBoardSolvable(
-  grid: BoardTile[][],
-  rows: number,
-  columns: number,
-) {}
+export function isBoardSolvable(board: Board) {
+  const { grid, rows, columns, emptyTileRowCoord, emptyTileColumnCoord } =
+    board;
+  const emptyTileCoord = { x: emptyTileRowCoord, y: emptyTileColumnCoord };
+
+  const inversions = countInversions(grid);
+  const taxicabDistance = calculateTaxicabDistance(
+    rows,
+    columns,
+    emptyTileCoord,
+  );
+
+  return (inversions + taxicabDistance) % 2 === 0;
+}
 
 export function initializeBoard(rows: number, columns: number): Board {
   const grid: BoardTile[][] = [];
