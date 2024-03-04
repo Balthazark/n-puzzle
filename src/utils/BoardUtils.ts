@@ -6,8 +6,10 @@ export function calculateTaxicabDistance(
   columns: number,
   tileCoordinates: TileCoordinates,
 ) {
-  console.log("Not implemented yet", rows, columns, tileCoordinates);
-  return 1;
+  const { x: emptyTileRow, y: emptyTileColumn } = tileCoordinates;
+  return (
+    Math.abs(rows - 1 - emptyTileRow) + Math.abs(columns - 1 - emptyTileColumn)
+  );
 }
 
 export function countInversions(grid: BoardTile[]) {
