@@ -1,7 +1,18 @@
 import { Board } from "../types/Board";
 import { BoardTile } from "../types/BoardTile";
 
-export function isBoardSolvable(board: Board) {}
+export function countInversions(grid: BoardTile[]) {
+  console.log("Not implemented", grid);
+}
+
+export function isBoardSolvable(
+  grid: BoardTile[][],
+  rows: number,
+  columns: number,
+) {
+  console.log("Not implemented", grid, rows, columns);
+  return true;
+}
 
 export function initializeBoard(rows: number, columns: number): Board {
   const grid: BoardTile[][] = [];
@@ -35,9 +46,7 @@ export function initializeBoard(rows: number, columns: number): Board {
   return { grid, rows, columns, emptyTileRowCoord, emptyTileColumnCoord };
 }
 
-export function isSolved(board: Board): boolean {
-  const { grid } = board;
-
+export function isSolved(grid: BoardTile[][]): boolean {
   const flatTiles = grid.flat();
   for (let i = 0; i < flatTiles.length - 1; i++) {
     if (flatTiles[i].value !== i + 1) {
