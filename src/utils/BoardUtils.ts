@@ -1,5 +1,5 @@
 import { Board } from "../types/Board";
-import { BoardTile, TileCoordinates } from "../types/BoardTile";
+import { BoardTile } from "../types/BoardTile";
 
 export function isBoardSolvable(board: Board) {}
 
@@ -36,20 +36,15 @@ export function initializeBoard(rows: number, columns: number): Board {
 }
 
 export function isSolved(board: Board): boolean {
-  const { grid, emptyTileRowCoord, emptyTileColumnCoord } = board;
+  const { grid } = board;
 
-  const areTilesInAscendingOrder = grid.flat().every((tile, index) => {
-    if (!tile.isEmpty) {
-      return tile.value === index + 1;
+  const flatTiles = grid.flat();
+  for (let i = 0; i < flatTiles.length - 1; i++) {
+    if (flatTiles[i].value !== i + 1) {
+      return false;
     }
-    return true;
-  });
-
-  const isEmptyTileInCorrectPosition =
-    emptyTileRowCoord === grid.length - 1 &&
-    emptyTileColumnCoord === grid[0].length - 1;
-
-  return areTilesInAscendingOrder && isEmptyTileInCorrectPosition;
+  }
+  return true;
 }
 
 export function shuffleTiles(tiles: BoardTile[]) {
