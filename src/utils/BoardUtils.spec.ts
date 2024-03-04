@@ -1,5 +1,6 @@
 import { Board } from "../types/Board";
 import {
+  calculateTaxicabDistance,
   countInversions,
   getNewEmptyTileCoords,
   initializeBoard,
@@ -140,6 +141,31 @@ describe("Test suite for board logic utils", () => {
       const { row, column } = getNewEmptyTileCoords(grid, rows, columns);
       expect(row).toEqual(emptyTileRowCoord);
       expect(column).toEqual(emptyTileColumnCoord);
+    });
+  });
+  describe("Calculates correct taxi cab distance from the empty tile to its correct position", () => {
+    const rows = 4;
+    const columns = 4;
+
+    test("Empty tile at bottom-right corner", () => {
+      const emptyTileCoordinates = { x: 3, y: 3 };
+
+      expect(
+        calculateTaxicabDistance(rows, columns, emptyTileCoordinates),
+      ).toBe(0);
+    });
+    test("Empty tile at top-left corner", () => {
+      const emptyTileCoordinates = { x: 0, y: 0 };
+      expect(
+        calculateTaxicabDistance(rows, columns, emptyTileCoordinates),
+      ).toBe(6);
+    });
+
+    test("Empty tile in the middle", () => {
+      const emptyTileCoordinates = { x: 1, y: 2 };
+      expect(
+        calculateTaxicabDistance(rows, columns, emptyTileCoordinates),
+      ).toBe(3);
     });
   });
   describe("Tests for determining if a board is solvable", () => {

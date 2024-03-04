@@ -1,5 +1,14 @@
 import { Board } from "../types/Board";
-import { BoardTile } from "../types/BoardTile";
+import { BoardTile, TileCoordinates } from "../types/BoardTile";
+
+export function calculateTaxicabDistance(
+  rows: number,
+  columns: number,
+  tileCoordinates: TileCoordinates,
+) {
+  console.log("Not implemented yet", rows, columns, tileCoordinates);
+  return 1;
+}
 
 export function countInversions(grid: BoardTile[]) {
   let inversionCount = 0;
@@ -12,12 +21,6 @@ export function countInversions(grid: BoardTile[]) {
       }
     }
   }
-  console.log(
-    "INVERSION COUNT: dimesions:",
-    flatTiles.length,
-    "INVERSION COUNT:",
-    inversionCount,
-  );
   return inversionCount;
 }
 
