@@ -221,7 +221,7 @@ describe("Test suite for board logic utils", () => {
       const inversionCount = countInversions(flatTiles);
       expect(inversionCount).toBe(70);
     });
-    test("Correctly counts inversions in a flat grid array representing a solvable 4x4 puzzle", () => {
+    test("Correctly counts inversions in a flat grid array representing an unsolvable 4x4 puzzle", () => {
       const flatTiles = [
         { value: 3, isEmpty: false },
         { value: 9, isEmpty: false },
@@ -259,44 +259,12 @@ describe("Test suite for board logic utils", () => {
           [
             { value: 7, isEmpty: false },
             { value: 6, isEmpty: false },
-            { value: 6, isEmpty: false },
-          ],
-        ],
-        rows: 3,
-        columns: 3,
-        emptyTileRowCoord: 2,
-        emptyTileColumnCoord: 0,
-      };
-      expect(
-        isBoardSolvable(
-          solvableBoard.grid,
-          solvableBoard.rows,
-          solvableBoard.columns,
-        ),
-      ).toBe(true);
-    });
-    test("Correctly identifies a solvable 3x3 puzzle configuration", () => {
-      const solvableBoard: Board = {
-        grid: [
-          [
-            { value: 1, isEmpty: false },
-            { value: 8, isEmpty: false },
-            { value: 2, isEmpty: false },
-          ],
-          [
-            { value: 9, isEmpty: true },
-            { value: 4, isEmpty: false },
-            { value: 3, isEmpty: false },
-          ],
-          [
-            { value: 7, isEmpty: false },
-            { value: 6, isEmpty: false },
             { value: 5, isEmpty: false },
           ],
         ],
         rows: 3,
         columns: 3,
-        emptyTileRowCoord: 2,
+        emptyTileRowCoord: 1,
         emptyTileColumnCoord: 0,
       };
       expect(
@@ -307,8 +275,8 @@ describe("Test suite for board logic utils", () => {
         ),
       ).toBe(true);
     });
-    test("Correctly identifies a solvable 3x3 puzzle configuration", () => {
-      const solvableBoard: Board = {
+    test("Correctly identifies an unsolvable 3x3 puzzle configuration", () => {
+      const unsolvableBoard: Board = {
         grid: [
           [
             { value: 8, isEmpty: false },
@@ -328,14 +296,99 @@ describe("Test suite for board logic utils", () => {
         ],
         rows: 3,
         columns: 3,
-        emptyTileRowCoord: 2,
+        emptyTileRowCoord: 1,
         emptyTileColumnCoord: 0,
+      };
+      expect(
+        isBoardSolvable(
+          unsolvableBoard.grid,
+          unsolvableBoard.rows,
+          unsolvableBoard.columns,
+        ),
+      ).toBe(true);
+    });
+    test("Correctly identifies a solvable 4x4 puzzle configuration", () => {
+      const solvableBoard: Board = {
+        grid: [
+          [
+            { value: 6, isEmpty: false },
+            { value: 13, isEmpty: false },
+            { value: 7, isEmpty: false },
+            { value: 10, isEmpty: false },
+          ],
+
+          [
+            { value: 8, isEmpty: false },
+            { value: 9, isEmpty: false },
+            { value: 11, isEmpty: false },
+            { value: 16, isEmpty: true },
+          ],
+
+          [
+            { value: 15, isEmpty: false },
+            { value: 2, isEmpty: false },
+            { value: 12, isEmpty: false },
+            { value: 5, isEmpty: false },
+          ],
+          [
+            { value: 14, isEmpty: false },
+            { value: 3, isEmpty: false },
+            { value: 1, isEmpty: false },
+            { value: 4, isEmpty: false },
+          ],
+        ],
+        rows: 4,
+        columns: 4,
+        emptyTileRowCoord: 1,
+        emptyTileColumnCoord: 3,
       };
       expect(
         isBoardSolvable(
           solvableBoard.grid,
           solvableBoard.rows,
           solvableBoard.columns,
+        ),
+      ).toBe(true);
+    });
+    test("Correctly identifies an unsolvable 4x4 puzzle configuration", () => {
+      const unsolvableBoard: Board = {
+        grid: [
+          [
+            { value: 3, isEmpty: false },
+            { value: 9, isEmpty: false },
+            { value: 1, isEmpty: false },
+            { value: 15, isEmpty: false },
+          ],
+          [
+            { value: 14, isEmpty: false },
+            { value: 11, isEmpty: false },
+            { value: 4, isEmpty: false },
+            { value: 6, isEmpty: false },
+          ],
+
+          [
+            { value: 13, isEmpty: false },
+            { value: 16, isEmpty: true },
+            { value: 10, isEmpty: false },
+            { value: 12, isEmpty: false },
+          ],
+          [
+            { value: 2, isEmpty: false },
+            { value: 7, isEmpty: false },
+            { value: 8, isEmpty: false },
+            { value: 5, isEmpty: false },
+          ],
+        ],
+        rows: 4,
+        columns: 4,
+        emptyTileRowCoord: 2,
+        emptyTileColumnCoord: 1,
+      };
+      expect(
+        isBoardSolvable(
+          unsolvableBoard.grid,
+          unsolvableBoard.rows,
+          unsolvableBoard.columns,
         ),
       ).toBe(true);
     });
