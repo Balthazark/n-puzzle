@@ -2,7 +2,7 @@ import { Board } from "../types/Board";
 import { TileCoordinates } from "../types/BoardTile";
 
 export function getEmptyTileCoordinates(board: Board) {
-  return { x: board.emptyTileRowCoord, y: board.emptyTileColumnCoord };
+  return board.emptyTileCoordinates;
 }
 export function isValidMove(board: Board, tileCoordinates: TileCoordinates) {
   const { emptyTileRowCoord, emptyTileColumnCoord } = board;

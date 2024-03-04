@@ -1,4 +1,5 @@
 import { Board } from "../types/Board";
+import { TileCoordinates } from "../types/BoardTile";
 import {
   calculateTaxicabDistance,
   countInversions,
@@ -14,10 +15,7 @@ describe("Test suite for board logic utils", () => {
   describe("Tests for board initialization with equal rows and columns", () => {
     const rows = 4;
     const columns = 4;
-    const { grid, emptyTileRowCoord, emptyTileColumnCoord } = initializeBoard(
-      rows,
-      columns,
-    );
+    const { grid, emptyTileCoordinates } = initializeBoard(rows, columns);
     test("Initializes a 4x4 board with correct dimensions", () => {
       expect(grid.length).toBe(rows);
       grid.forEach((row) => {
@@ -35,9 +33,10 @@ describe("Test suite for board logic utils", () => {
       expect(lastTile.isEmpty).toBe(true);
     });
     test("A 4x4 board has the correct empty tile indices and the isEmpty field is set correctly", () => {
-      expect(emptyTileRowCoord).toBe(rows - 1);
-      expect(emptyTileColumnCoord).toBe(columns - 1);
-      const emptyTile = grid[emptyTileRowCoord][emptyTileColumnCoord];
+      expect(emptyTileCoordinates.row).toBe(rows - 1);
+      expect(emptyTileCoordinates.column).toBe(columns - 1);
+      const emptyTile =
+        grid[emptyTileCoordinates.row][emptyTileCoordinates.column];
       expect(emptyTile.isEmpty).toBe(true);
     });
     test("A 4x4 board has the correct values", () => {
@@ -53,10 +52,7 @@ describe("Test suite for board logic utils", () => {
   describe("Tests for board initialization with unequal rows and columns", () => {
     const rows = 4;
     const columns = 2;
-    const { grid, emptyTileRowCoord, emptyTileColumnCoord } = initializeBoard(
-      rows,
-      columns,
-    );
+    const { grid, emptyTileCoordinates } = initializeBoard(rows, columns);
     test("Initializes a 4x2 board with correct dimensions", () => {
       expect(grid.length).toBe(rows);
       grid.forEach((row) => {
@@ -74,9 +70,10 @@ describe("Test suite for board logic utils", () => {
       expect(lastTile.isEmpty).toBe(true);
     });
     test("A 4x2 board has the correct empty tile indices and correctly set isEmpty value", () => {
-      expect(emptyTileRowCoord).toBe(rows - 1);
-      expect(emptyTileColumnCoord).toBe(columns - 1);
-      const emptyTile = grid[emptyTileRowCoord][emptyTileColumnCoord];
+      expect(emptyTileCoordinates.row).toBe(rows - 1);
+      expect(emptyTileCoordinates.column).toBe(columns - 1);
+      const emptyTile =
+        grid[emptyTileCoordinates.row][emptyTileCoordinates.column];
       expect(emptyTile.isEmpty).toBe(true);
     });
     test("A 4x2 board has the correct values", () => {
@@ -113,34 +110,36 @@ describe("Test suite for board logic utils", () => {
       expect(shuffledBoard).not.toEqual(board);
     });
     test("Correctly finds the row and column index of the empty tile for a 4x4 board", () => {
-      const { grid, rows, columns, emptyTileRowCoord, emptyTileColumnCoord } =
-        initializeBoard(4, 4);
+      const { grid, rows, columns, emptyTileCoordinates } = initializeBoard(
+        4,
+        4,
+      );
       const { row, column } = getNewEmptyTileCoords(grid, rows, columns);
-      expect(row).toEqual(emptyTileRowCoord);
-      expect(column).toEqual(emptyTileColumnCoord);
+      expect(row).toEqual(emptyTileCoordinates.row);
+      expect(column).toEqual(emptyTileCoordinates.column);
     });
     test("Correctly finds the row and column index of the empty tile for a 4x2 board", () => {
-      const { grid, rows, columns, emptyTileRowCoord, emptyTileColumnCoord } =
-        initializeBoard(4, 2);
+      const { grid, rows, columns, emptyTileCoordinates } = initializeBoard(
+        4,
+        2,
+      );
       const { row, column } = getNewEmptyTileCoords(grid, rows, columns);
-      expect(row).toEqual(emptyTileRowCoord);
-      expect(column).toEqual(emptyTileColumnCoord);
+      expect(row).toEqual(emptyTileCoordinates.row);
+      expect(column).toEqual(emptyTileCoordinates.column);
     });
     test("Correctly updates the row and column index of a 4x4 board after a shuffle", () => {
       const board = initializeBoard(4, 4);
-      const { grid, rows, columns, emptyTileRowCoord, emptyTileColumnCoord } =
-        shuffleBoard(board);
+      const { grid, rows, columns, emptyTileCoordinates } = shuffleBoard(board);
       const { row, column } = getNewEmptyTileCoords(grid, rows, columns);
-      expect(row).toEqual(emptyTileRowCoord);
-      expect(column).toEqual(emptyTileColumnCoord);
+      expect(row).toEqual(emptyTileCoordinates.row);
+      expect(column).toEqual(emptyTileCoordinates.column);
     });
     test("Correctly updates the row and column index of a 4x2 board after a shuffle", () => {
       const board = initializeBoard(4, 2);
-      const { grid, rows, columns, emptyTileRowCoord, emptyTileColumnCoord } =
-        shuffleBoard(board);
+      const { grid, rows, columns, emptyTileCoordinates } = shuffleBoard(board);
       const { row, column } = getNewEmptyTileCoords(grid, rows, columns);
-      expect(row).toEqual(emptyTileRowCoord);
-      expect(column).toEqual(emptyTileColumnCoord);
+      expect(row).toEqual(emptyTileCoordinates.row);
+      expect(column).toEqual(emptyTileCoordinates.column);
     });
   });
   describe("Calculates correct taxi cab distance from the empty tile to its correct position", () => {
@@ -148,21 +147,21 @@ describe("Test suite for board logic utils", () => {
     const columns = 4;
 
     test("Empty tile at bottom-right corner", () => {
-      const emptyTileCoordinates = { x: 3, y: 3 };
+      const emptyTileCoordinates: TileCoordinates = { row: 3, column: 3 };
 
       expect(
         calculateTaxicabDistance(rows, columns, emptyTileCoordinates),
       ).toBe(0);
     });
     test("Empty tile at top-left corner", () => {
-      const emptyTileCoordinates = { x: 0, y: 0 };
+      const emptyTileCoordinates: TileCoordinates = { row: 0, column: 0 };
       expect(
         calculateTaxicabDistance(rows, columns, emptyTileCoordinates),
       ).toBe(6);
     });
 
     test("Empty tile in the middle", () => {
-      const emptyTileCoordinates = { x: 1, y: 2 };
+      const emptyTileCoordinates: TileCoordinates = { row: 1, column: 2 };
       expect(
         calculateTaxicabDistance(rows, columns, emptyTileCoordinates),
       ).toBe(3);
@@ -295,8 +294,7 @@ describe("Test suite for board logic utils", () => {
         ],
         rows: 3,
         columns: 3,
-        emptyTileRowCoord: 1,
-        emptyTileColumnCoord: 0,
+        emptyTileCoordinates: { row: 1, column: 0 },
       };
       expect(isBoardSolvable(solvableBoard)).toBe(true);
     });
@@ -321,8 +319,7 @@ describe("Test suite for board logic utils", () => {
         ],
         rows: 3,
         columns: 3,
-        emptyTileRowCoord: 1,
-        emptyTileColumnCoord: 0,
+        emptyTileCoordinates: { row: 1, column: 0 },
       };
       expect(isBoardSolvable(unsolvableBoard)).toBe(false);
     });
@@ -358,8 +355,7 @@ describe("Test suite for board logic utils", () => {
         ],
         rows: 4,
         columns: 4,
-        emptyTileRowCoord: 1,
-        emptyTileColumnCoord: 3,
+        emptyTileCoordinates: { row: 1, column: 3 },
       };
       expect(isBoardSolvable(solvableBoard)).toBe(true);
     });
@@ -394,8 +390,7 @@ describe("Test suite for board logic utils", () => {
         ],
         rows: 4,
         columns: 4,
-        emptyTileRowCoord: 2,
-        emptyTileColumnCoord: 1,
+        emptyTileCoordinates: { row: 2, column: 1 },
       };
       expect(isBoardSolvable(unsolvableBoard)).toBe(false);
     });
@@ -441,8 +436,7 @@ describe("Test suite for board logic utils", () => {
         ],
         rows: 2,
         columns: 2,
-        emptyTileRowCoord: 0,
-        emptyTileColumnCoord: 0,
+        emptyTileCoordinates: { row: 0, column: 0 },
       };
       expect(isSolved(board.grid)).toBe(false);
     });

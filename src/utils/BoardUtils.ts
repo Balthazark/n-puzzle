@@ -6,9 +6,9 @@ export function calculateTaxicabDistance(
   columns: number,
   tileCoordinates: TileCoordinates,
 ) {
-  const { x: emptyTileRow, y: emptyTileColumn } = tileCoordinates;
   return (
-    Math.abs(rows - 1 - emptyTileRow) + Math.abs(columns - 1 - emptyTileColumn)
+    Math.abs(rows - 1 - tileCoordinates.row) +
+    Math.abs(columns - 1 - tileCoordinates.column)
   );
 }
 
@@ -27,15 +27,13 @@ export function countInversions(grid: BoardTile[][]) {
 }
 
 export function isBoardSolvable(board: Board) {
-  const { grid, rows, columns, emptyTileRowCoord, emptyTileColumnCoord } =
-    board;
-  const emptyTileCoord = { x: emptyTileRowCoord, y: emptyTileColumnCoord };
+  const { grid, rows, columns, emptyTileCoordinates } = board;
 
   const inversions = countInversions(grid);
   const taxicabDistance = calculateTaxicabDistance(
     rows,
     columns,
-    emptyTileCoord,
+    emptyTileCoordinates,
   );
 
   return (inversions + taxicabDistance) % 2 === 0;
@@ -69,8 +67,12 @@ export function initializeBoard(rows: number, columns: number): Board {
 
   const emptyTileRowCoord = rows - 1;
   const emptyTileColumnCoord = columns - 1;
+  const emptyTileCoordinates = {
+    row: emptyTileRowCoord,
+    column: emptyTileColumnCoord,
+  };
 
-  return { grid, rows, columns, emptyTileRowCoord, emptyTileColumnCoord };
+  return { grid, rows, columns, emptyTileCoordinates };
 }
 
 export function isSolved(grid: BoardTile[][]): boolean {
@@ -98,7 +100,7 @@ export function getNewEmptyTileCoords(
   grid: BoardTile[][],
   rows: number,
   columns: number,
-) {
+): TileCoordinates {
   for (let row = 0; row < rows; row++) {
     for (let column = 0; column < columns; column++) {
       if (grid[row][column].isEmpty) {
@@ -122,13 +124,16 @@ export function shuffleBoard(board: Board): Board {
     shuffledGrid.push(newRowTiles);
   }
 
-  const { row, column } = getNewEmptyTileCoords(shuffledGrid, rows, columns);
+  const emptyTileCoordinates = getNewEmptyTileCoords(
+    shuffledGrid,
+    rows,
+    columns,
+  );
 
   return {
     columns: columns,
     rows: rows,
     grid: shuffledGrid,
-    emptyTileRowCoord: row,
-    emptyTileColumnCoord: column,
+    emptyTileCoordinates: emptyTileCoordinates,
   };
 }
