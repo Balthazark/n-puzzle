@@ -148,7 +148,7 @@ describe("Test suite for board logic utils", () => {
         { value: 1, isEmpty: false },
         { value: 8, isEmpty: false },
         { value: 2, isEmpty: false },
-        { value: 0, isEmpty: true },
+        { value: 9, isEmpty: true },
         { value: 4, isEmpty: false },
         { value: 3, isEmpty: false },
         { value: 7, isEmpty: false },
@@ -156,7 +156,7 @@ describe("Test suite for board logic utils", () => {
         { value: 5, isEmpty: false },
       ];
       const inversionCount = countInversions(flatTiles);
-      expect(inversionCount).toBe(10);
+      expect(inversionCount).toBe(15);
     });
     test("Correctly counts inversions in a flat grid array representing an unsolvable 3x3 puzzle", () => {
       const flatTiles = [
@@ -171,29 +171,51 @@ describe("Test suite for board logic utils", () => {
         { value: 5, isEmpty: false },
       ];
       const inversionCount = countInversions(flatTiles);
-      expect(inversionCount).toBe(11);
+      expect(inversionCount).toBe(16);
     });
-    test("Correctly counts inversions in a flat grid array representing a 4x4 puzzle", () => {
+    test("Correctly counts inversions in a flat grid array representing a solvable 4x4 puzzle", () => {
       const flatTiles = [
-        { value: 2, isEmpty: false },
-        { value: 1, isEmpty: false },
-        { value: 3, isEmpty: false },
-        { value: 4, isEmpty: false },
-        { value: 5, isEmpty: false },
         { value: 6, isEmpty: false },
+        { value: 13, isEmpty: false },
         { value: 7, isEmpty: false },
+        { value: 10, isEmpty: false },
         { value: 8, isEmpty: false },
-        { value: 9, isEmpty: true },
-        { value: 10, isEmpty: true },
-        { value: 11, isEmpty: true },
-        { value: 12, isEmpty: true },
-        { value: 13, isEmpty: true },
-        { value: 14, isEmpty: true },
-        { value: 15, isEmpty: true },
-        { value: 16, isEmpty: false },
+        { value: 9, isEmpty: false },
+        { value: 11, isEmpty: false },
+        { value: 16, isEmpty: true },
+        { value: 15, isEmpty: false },
+        { value: 2, isEmpty: false },
+        { value: 12, isEmpty: false },
+        { value: 5, isEmpty: false },
+        { value: 14, isEmpty: false },
+        { value: 3, isEmpty: false },
+        { value: 1, isEmpty: false },
+        { value: 4, isEmpty: false },
       ];
       const inversionCount = countInversions(flatTiles);
-      expect(inversionCount).toBe(1);
+      expect(inversionCount).toBe(70);
+    });
+    test("Correctly counts inversions in a flat grid array representing a solvable 4x4 puzzle", () => {
+      const flatTiles = [
+        { value: 3, isEmpty: false },
+        { value: 9, isEmpty: false },
+        { value: 1, isEmpty: false },
+        { value: 15, isEmpty: false },
+        { value: 14, isEmpty: false },
+        { value: 11, isEmpty: false },
+        { value: 4, isEmpty: false },
+        { value: 6, isEmpty: false },
+        { value: 13, isEmpty: false },
+        { value: 16, isEmpty: true },
+        { value: 10, isEmpty: false },
+        { value: 12, isEmpty: false },
+        { value: 2, isEmpty: false },
+        { value: 7, isEmpty: false },
+        { value: 8, isEmpty: false },
+        { value: 5, isEmpty: false },
+      ];
+      const inversionCount = countInversions(flatTiles);
+      expect(inversionCount).toBe(62);
     });
     test("Correctly identifies a solvable 3x3 puzzle configuration", () => {
       const solvableBoard: Board = {
