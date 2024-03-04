@@ -8,7 +8,6 @@ type Tile = BaseTile & {
 
 type EmptyTile = BaseTile & {
   isEmpty: true;
-  value: 0;
 };
 
 export type BoardTile = Tile | EmptyTile;

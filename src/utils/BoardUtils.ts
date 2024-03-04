@@ -1,6 +1,7 @@
 import { Board } from "../types/Board";
-import { BoardTile } from "../types/BoardTile";
-import { moveTiles } from "./TileUtils";
+import { BoardTile, TileCoordinates } from "../types/BoardTile";
+
+export function isBoardSolvable(board: Board) {}
 
 export function initializeBoard(rows: number, columns: number): Board {
   const grid: BoardTile[][] = [];
@@ -16,7 +17,7 @@ export function initializeBoard(rows: number, columns: number): Board {
       const boardTile: BoardTile = isLastTile
         ? {
             isEmpty: true,
-            value: 0,
+            value: value,
           }
         : {
             isEmpty: false,
@@ -51,27 +52,52 @@ export function isSolved(board: Board): boolean {
   return areTilesInAscendingOrder && isEmptyTileInCorrectPosition;
 }
 
-export function shuffleBoard(board: Board): Board {
-  const { rows, columns } = board;
-  let shuffledBoard = board;
+export function shuffleTiles(tiles: BoardTile[]) {
+  const shuffledTiles = [...tiles];
 
-  const numIterations = rows * columns * 100;
-
-  for (let i = 0; i < numIterations; i++) {
-    const adjacentTiles = [
-      { x: board.emptyTileRowCoord - 1, y: board.emptyTileColumnCoord },
-      { x: board.emptyTileRowCoord + 1, y: board.emptyTileColumnCoord },
-      { x: board.emptyTileRowCoord, y: board.emptyTileColumnCoord - 1 },
-      { x: board.emptyTileRowCoord, y: board.emptyTileColumnCoord + 1 },
-    ].filter(
-      (tile) => tile.x >= 0 && tile.x < rows && tile.y >= 0 && tile.y < columns,
-    );
-
-    const randomIndex = Math.floor(Math.random() * adjacentTiles.length);
-    const selectedTile = adjacentTiles[randomIndex];
-
-    shuffledBoard = moveTiles(shuffledBoard, selectedTile);
+  for (let i = shuffledTiles.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledTiles[i], shuffledTiles[j]] = [shuffledTiles[j], shuffledTiles[i]];
   }
 
-  return shuffledBoard;
+  return shuffledTiles;
+}
+
+export function getNewEmptyTileCoords(
+  grid: BoardTile[][],
+  rows: number,
+  columns: number,
+) {
+  for (let row = 0; row < rows; row++) {
+    for (let column = 0; column < columns; column++) {
+      if (grid[row][column].isEmpty) {
+        return { row, column };
+      }
+    }
+  }
+  throw new Error("Empty tile not found.");
+}
+
+export function shuffleBoard(board: Board): Board {
+  const { grid, rows, columns } = board;
+
+  const flatTiles = grid.flat();
+  const shuffledTiles = shuffleTiles(flatTiles);
+
+  const shuffledGrid: BoardTile[][] = [];
+
+  for (let row = 0; row < rows; row++) {
+    const newRowTiles = shuffledTiles.slice(row * columns, (row + 1) * columns);
+    shuffledGrid.push(newRowTiles);
+  }
+
+  const { row, column } = getNewEmptyTileCoords(shuffledGrid, rows, columns);
+
+  return {
+    columns: columns,
+    rows: rows,
+    grid: shuffledGrid,
+    emptyTileRowCoord: row,
+    emptyTileColumnCoord: column,
+  };
 }
