@@ -183,7 +183,6 @@ describe("Test suite for tile logic utils", () => {
         },
       };
       const newBoard = moveTiles(board, inputTile);
-      console.log("NEW BOARD", newBoard.grid);
       expect(newBoard).toEqual(expectedBoard);
     });
     test("Moves multiple tiles and the empty tile horizontally to the correct coordinates", () => {

@@ -1,10 +1,14 @@
-import { renderHook } from "@testing-library/react";
+import { renderHook, act } from "@testing-library/react";
 import useBoard from "./useBoard";
-import { isSolved } from "../utils/BoardUtils";
+import { BoardTile } from "../types/BoardTile";
+import * as boardUtils from "../utils/BoardUtils";
 
 describe("Tests for the useBoard hook", () => {
-  const { result } = renderHook(() => useBoard(4, 4));
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
   test("Hook correctly initializes 4x4 board with the specified number of rows and columns", () => {
+    const { result } = renderHook(() => useBoard(4, 4));
     expect(result.current.board.columns).toBe(4);
     expect(result.current.board.rows).toBe(4);
     expect(result.current.board.rows).toBe(4);
@@ -13,10 +17,66 @@ describe("Tests for the useBoard hook", () => {
       expect(row.length).toBe(4);
     });
   });
-  test("Hook correctly shuffles the board at initialization and produces and unsolved board", () => {
-    expect(isSolved(result.current.board.grid)).toBe(false);
+  test("Hook correctly shuffles the board at initialization and produces an unsolved board", () => {
+    const { result } = renderHook(() => useBoard(4, 4));
+    expect(boardUtils.isSolved(result.current.board.grid)).toBe(false);
   });
   test("Hook returns correct game state for if the board is solved or not", () => {
-    expect(result.current.isSolved).toBe(false);
+    const { result } = renderHook(() => useBoard(4, 4));
+    expect(result.current.isBoardSolved).toBe(false);
+  });
+  test("Hook correctly reshuffles the board", () => {
+    const { result } = renderHook(() => useBoard(4, 4));
+    const oldBoard = result.current.board;
+    act(() => {
+      result.current.handleRestartGame();
+    });
+    expect(result.current.board).not.toEqual(oldBoard);
+    expect(result.current.isBoardSolved).toBe(false);
+  });
+  test("Hook correctly moves tiles and successfully updates the isBoardSolved state ", () => {
+    jest
+      .spyOn(boardUtils, "initializeSolvableBoard")
+      .mockImplementationOnce(() => ({
+        grid: [
+          [
+            { value: 1, isEmpty: false },
+            { value: 2, isEmpty: false },
+            { value: 3, isEmpty: false },
+            { value: 4, isEmpty: false },
+          ],
+          [
+            { value: 5, isEmpty: false },
+            { value: 6, isEmpty: false },
+            { value: 7, isEmpty: false },
+            { value: 8, isEmpty: false },
+          ],
+
+          [
+            { value: 9, isEmpty: false },
+            { value: 10, isEmpty: false },
+            { value: 11, isEmpty: false },
+            { value: 12, isEmpty: false },
+          ],
+          [
+            { value: 13, isEmpty: false },
+            { value: 14, isEmpty: false },
+            { value: 16, isEmpty: true },
+            { value: 15, isEmpty: false },
+          ],
+        ],
+        rows: 4,
+        columns: 4,
+        emptyTileCoordinates: { row: 3, column: 2 },
+      }));
+    const { result } = renderHook(() => useBoard(4, 4));
+    act(() => {
+      result.current.handleMoveTiles({ row: 3, column: 3 });
+    });
+    const tile: BoardTile = { value: 15, isEmpty: false };
+    const emptyTile: BoardTile = { value: 16, isEmpty: true };
+    expect(result.current.board.grid[3][2]).toEqual(tile);
+    expect(result.current.board.grid[3][3]).toEqual(emptyTile);
+    expect(result.current.isBoardSolved).toBe(true);
   });
 });
