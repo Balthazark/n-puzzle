@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
   initializeSolvableBoard,
   shuffleBoard,
@@ -13,19 +13,22 @@ const useBoard = (rows: number, columns: number) => {
   );
   const [isBoardSolved, setIsBoardSolved] = useState(false);
 
-  const handleRestartGame = () => {
+  const handleRestartGame = useCallback(() => {
     const shuffledBoard = shuffleBoard(board);
     setBoard(shuffledBoard);
     setIsBoardSolved(false);
-  };
+  }, [board]);
 
-  const handleMoveTiles = (tileCoordinates: TileCoordinates) => {
-    const boardAfterMove = moveTiles(board, tileCoordinates);
-    if (isSolved(boardAfterMove.grid)) {
-      setIsBoardSolved(true);
-    }
-    setBoard(boardAfterMove);
-  };
+  const handleMoveTiles = useCallback(
+    (tileCoordinates: TileCoordinates) => {
+      const boardAfterMove = moveTiles(board, tileCoordinates);
+      if (isSolved(boardAfterMove.grid)) {
+        setIsBoardSolved(true);
+      }
+      setBoard(boardAfterMove);
+    },
+    [board],
+  );
 
   return { board, isBoardSolved, handleRestartGame, handleMoveTiles };
 };
