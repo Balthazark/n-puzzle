@@ -138,7 +138,25 @@ export function shuffleBoard(board: Board): Board {
   };
 }
 
-export function makeBoardSolvable(board: Board) {
-  console.log("Not implemented", board);
-  return board;
+export function makeBoardSolvable(board: Board): Board {
+  const { grid, rows, columns } = board;
+  const solvableGrid = [...grid];
+  const temp = solvableGrid[0][0];
+  solvableGrid[0][0] = solvableGrid[0][1];
+  solvableGrid[0][1] = temp;
+
+  const emptyTileCoordinates = getNewEmptyTileCoords(grid, rows, columns);
+
+  return {
+    ...board,
+    grid: solvableGrid,
+    emptyTileCoordinates: emptyTileCoordinates,
+  };
+}
+
+export function initializeSolvableBoard(rows: number, columns: number): Board {
+  console.log("Not implemented", rows, columns);
+  const solvedBoard = initializeBoard(rows, columns);
+  const shuffledBoard = shuffleBoard(solvedBoard);
+  return shuffledBoard;
 }
