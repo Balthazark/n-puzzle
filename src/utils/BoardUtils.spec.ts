@@ -458,15 +458,14 @@ describe("Test suite for board logic utils", () => {
   });
   describe("Tests for initializing a solvable and shuffled board", () => {
     test("Always returns a solvable board", () => {
-      const rows = 1;
-      const columns = 1;
+      const rows = 2;
+      const columns = 2;
       const attempts = 10;
 
       for (let i = 0; i < attempts; i++) {
         const board = initializeSolvableBoard(rows + i, columns + i);
         expect(isBoardSolvable(board)).toBe(true);
       }
-
       for (let i = 0; i < attempts; i++) {
         const board = initializeSolvableBoard(rows + i, columns);
         expect(isBoardSolvable(board)).toBe(true);

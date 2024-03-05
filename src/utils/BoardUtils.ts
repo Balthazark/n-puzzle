@@ -15,7 +15,6 @@ export function calculateTaxicabDistance(
 export function countInversions(grid: BoardTile[][]) {
   let inversionCount = 0;
   const flatTiles = grid.flat();
-
   for (let i = 0; i < flatTiles.length - 1; i++) {
     for (let j = i + 1; j < flatTiles.length; j++) {
       if (flatTiles[i].value > flatTiles[j].value) {
@@ -141,22 +140,37 @@ export function shuffleBoard(board: Board): Board {
 export function makeBoardSolvable(board: Board): Board {
   const { grid, rows, columns } = board;
   const solvableGrid = [...grid];
+
+  if (solvableGrid[0][0].isEmpty && solvableGrid[0][1].isEmpty) {
+    const temp = solvableGrid[rows - 1][columns - 1];
+    solvableGrid[rows - 1][columns - 1] = solvableGrid[rows - 1][columns - 2];
+    solvableGrid[rows - 1][columns - 2] = temp;
+    return {
+      ...board,
+      grid: solvableGrid,
+    };
+  }
   const temp = solvableGrid[0][0];
   solvableGrid[0][0] = solvableGrid[0][1];
   solvableGrid[0][1] = temp;
-
-  const emptyTileCoordinates = getNewEmptyTileCoords(grid, rows, columns);
-
   return {
     ...board,
     grid: solvableGrid,
-    emptyTileCoordinates: emptyTileCoordinates,
   };
 }
 
-export function initializeSolvableBoard(rows: number, columns: number): Board {
-  console.log("Not implemented", rows, columns);
+export function initializeSolvableBoard(rows: number, columns: number) {
+  if (rows < 2 || columns < 2) {
+    throw new Error(
+      "Not a valid board size, use a value equal or greater than 2 for rows and columns",
+    );
+  }
+
   const solvedBoard = initializeBoard(rows, columns);
   const shuffledBoard = shuffleBoard(solvedBoard);
-  return shuffledBoard;
+  const solvableBoard = isBoardSolvable(shuffledBoard)
+    ? shuffledBoard
+    : makeBoardSolvable(shuffledBoard);
+
+  return solvableBoard;
 }
