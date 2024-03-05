@@ -1,6 +1,44 @@
 import { Board } from "../types/Board";
-import { BoardTile } from "../types/BoardTile";
-import { moveTiles } from "./TileUtils";
+import { BoardTile, TileCoordinates } from "../types/BoardTile";
+
+export function calculateTaxicabDistance(
+  startCoordinates: TileCoordinates,
+  endCoordinates: TileCoordinates,
+) {
+  return (
+    Math.abs(startCoordinates.row - endCoordinates.row) +
+    Math.abs(startCoordinates.column - endCoordinates.column)
+  );
+}
+
+export function countInversions(grid: BoardTile[][]) {
+  let inversionCount = 0;
+  const flatTiles = grid.flat();
+  for (let i = 0; i < flatTiles.length - 1; i++) {
+    for (let j = i + 1; j < flatTiles.length; j++) {
+      if (flatTiles[i].value > flatTiles[j].value) {
+        inversionCount++;
+      }
+    }
+  }
+  return inversionCount;
+}
+
+export function isBoardSolvable(board: Board) {
+  const { grid, rows, columns, emptyTileCoordinates } = board;
+  const emptyTileGoalCoordinates: TileCoordinates = {
+    row: rows - 1,
+    column: columns - 1,
+  };
+
+  const inversions = countInversions(grid);
+  const taxicabDistance = calculateTaxicabDistance(
+    emptyTileCoordinates,
+    emptyTileGoalCoordinates,
+  );
+
+  return (inversions + taxicabDistance) % 2 === 0;
+}
 
 export function initializeBoard(rows: number, columns: number): Board {
   const grid: BoardTile[][] = [];
@@ -16,7 +54,7 @@ export function initializeBoard(rows: number, columns: number): Board {
       const boardTile: BoardTile = isLastTile
         ? {
             isEmpty: true,
-            value: 0,
+            value: value,
           }
         : {
             isEmpty: false,
@@ -30,48 +68,111 @@ export function initializeBoard(rows: number, columns: number): Board {
 
   const emptyTileRowCoord = rows - 1;
   const emptyTileColumnCoord = columns - 1;
+  const emptyTileCoordinates = {
+    row: emptyTileRowCoord,
+    column: emptyTileColumnCoord,
+  };
 
-  return { grid, rows, columns, emptyTileRowCoord, emptyTileColumnCoord };
+  return { grid, rows, columns, emptyTileCoordinates };
 }
 
-export function isSolved(board: Board): boolean {
-  const { grid, emptyTileRowCoord, emptyTileColumnCoord } = board;
-
-  const areTilesInAscendingOrder = grid.flat().every((tile, index) => {
-    if (!tile.isEmpty) {
-      return tile.value === index + 1;
+export function isSolved(grid: BoardTile[][]): boolean {
+  const flatTiles = grid.flat();
+  for (let i = 0; i < flatTiles.length - 1; i++) {
+    if (flatTiles[i].value !== i + 1) {
+      return false;
     }
-    return true;
-  });
+  }
+  return true;
+}
 
-  const isEmptyTileInCorrectPosition =
-    emptyTileRowCoord === grid.length - 1 &&
-    emptyTileColumnCoord === grid[0].length - 1;
+export function shuffleTiles(tiles: BoardTile[]) {
+  const shuffledTiles = [...tiles];
 
-  return areTilesInAscendingOrder && isEmptyTileInCorrectPosition;
+  for (let i = shuffledTiles.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledTiles[i], shuffledTiles[j]] = [shuffledTiles[j], shuffledTiles[i]];
+  }
+
+  return shuffledTiles;
+}
+
+export function getNewEmptyTileCoords(
+  grid: BoardTile[][],
+  rows: number,
+  columns: number,
+): TileCoordinates {
+  for (let row = 0; row < rows; row++) {
+    for (let column = 0; column < columns; column++) {
+      if (grid[row][column].isEmpty) {
+        return { row, column };
+      }
+    }
+  }
+  throw new Error("Empty tile not found.");
 }
 
 export function shuffleBoard(board: Board): Board {
-  const { rows, columns } = board;
-  let shuffledBoard = board;
+  const { grid, rows, columns } = board;
 
-  const numIterations = rows * columns * 100;
+  const flatTiles = grid.flat();
+  const shuffledTiles = shuffleTiles(flatTiles);
 
-  for (let i = 0; i < numIterations; i++) {
-    const adjacentTiles = [
-      { x: board.emptyTileRowCoord - 1, y: board.emptyTileColumnCoord },
-      { x: board.emptyTileRowCoord + 1, y: board.emptyTileColumnCoord },
-      { x: board.emptyTileRowCoord, y: board.emptyTileColumnCoord - 1 },
-      { x: board.emptyTileRowCoord, y: board.emptyTileColumnCoord + 1 },
-    ].filter(
-      (tile) => tile.x >= 0 && tile.x < rows && tile.y >= 0 && tile.y < columns,
-    );
+  const shuffledGrid: BoardTile[][] = [];
 
-    const randomIndex = Math.floor(Math.random() * adjacentTiles.length);
-    const selectedTile = adjacentTiles[randomIndex];
-
-    shuffledBoard = moveTiles(shuffledBoard, selectedTile);
+  for (let row = 0; row < rows; row++) {
+    const newRowTiles = shuffledTiles.slice(row * columns, (row + 1) * columns);
+    shuffledGrid.push(newRowTiles);
   }
 
-  return shuffledBoard;
+  const emptyTileCoordinates = getNewEmptyTileCoords(
+    shuffledGrid,
+    rows,
+    columns,
+  );
+
+  return {
+    columns: columns,
+    rows: rows,
+    grid: shuffledGrid,
+    emptyTileCoordinates: emptyTileCoordinates,
+  };
+}
+
+export function makeBoardSolvable(board: Board): Board {
+  const { grid, rows, columns } = board;
+  const solvableGrid = [...grid];
+
+  if (solvableGrid[0][0].isEmpty && solvableGrid[0][1].isEmpty) {
+    const temp = solvableGrid[rows - 1][columns - 1];
+    solvableGrid[rows - 1][columns - 1] = solvableGrid[rows - 1][columns - 2];
+    solvableGrid[rows - 1][columns - 2] = temp;
+    return {
+      ...board,
+      grid: solvableGrid,
+    };
+  }
+  const temp = solvableGrid[0][0];
+  solvableGrid[0][0] = solvableGrid[0][1];
+  solvableGrid[0][1] = temp;
+  return {
+    ...board,
+    grid: solvableGrid,
+  };
+}
+
+export function initializeSolvableBoard(rows: number, columns: number) {
+  if (rows < 2 || columns < 2) {
+    throw new Error(
+      "Not a valid board size, use a value equal or greater than 2 for rows and columns",
+    );
+  }
+
+  const solvedBoard = initializeBoard(rows, columns);
+  const shuffledBoard = shuffleBoard(solvedBoard);
+  const solvableBoard = isBoardSolvable(shuffledBoard)
+    ? shuffledBoard
+    : makeBoardSolvable(shuffledBoard);
+
+  return solvableBoard;
 }

@@ -8,11 +8,10 @@ type Tile = BaseTile & {
 
 type EmptyTile = BaseTile & {
   isEmpty: true;
-  value: 0;
 };
 
 export type BoardTile = Tile | EmptyTile;
 export type TileCoordinates = {
-  x: number;
-  y: number;
+  row: number;
+  column: number;
 };

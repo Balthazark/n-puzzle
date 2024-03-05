@@ -1,114 +1,73 @@
 import { Board } from "../types/Board";
 import { TileCoordinates } from "../types/BoardTile";
 
-export function getEmptyTileCoordinates(board: Board) {
-  return { x: board.emptyTileRowCoord, y: board.emptyTileColumnCoord };
-}
-export function isValidMove(board: Board, tileCoordinates: TileCoordinates) {
-  const { emptyTileRowCoord, emptyTileColumnCoord } = board;
-  const { x: tileRowCoord, y: tileColumnCoord } = tileCoordinates;
-
-  return (
-    emptyTileRowCoord === tileRowCoord ||
-    emptyTileColumnCoord === tileColumnCoord
-  );
-}
-
-export function isTileAdjacent(
-  firstTile: TileCoordinates,
-  secondTile: TileCoordinates,
+export function isValidMove(
+  emptyTileCoordinates: TileCoordinates,
+  tileCoordinates: TileCoordinates,
 ) {
   return (
-    Math.abs(firstTile.x - secondTile.x) +
-      Math.abs(firstTile.y - secondTile.y) ===
-    1
+    emptyTileCoordinates.row === tileCoordinates.row ||
+    emptyTileCoordinates.column === tileCoordinates.column
   );
 }
 
-export function moveTiles(board: Board, inputTileCoordinate: TileCoordinates) {
-  if (!isValidMove(board, inputTileCoordinate)) {
+export function moveTiles(board: Board, inputTileCoordinates: TileCoordinates) {
+  const { grid, emptyTileCoordinates } = board;
+  if (!isValidMove(emptyTileCoordinates, inputTileCoordinates)) {
     return board;
   }
-  const newGrid = board.grid.map((row) => [...row]);
-  const emptyTileCoordinates = getEmptyTileCoordinates(board);
+  const newGrid = grid.map((row) => row.map((tile) => ({ ...tile })));
 
-  if (isTileAdjacent(inputTileCoordinate, emptyTileCoordinates)) {
-    newGrid[emptyTileCoordinates.x][emptyTileCoordinates.y] =
-      board.grid[inputTileCoordinate.x][inputTileCoordinate.y];
-    newGrid[inputTileCoordinate.x][inputTileCoordinate.y] =
-      board.grid[emptyTileCoordinates.x][emptyTileCoordinates.y];
+  const isHorizontalMove =
+    emptyTileCoordinates.row === inputTileCoordinates.row;
 
-    const newBoard: Board = {
-      grid: newGrid,
-      rows: board.rows,
-      columns: board.columns,
-      emptyTileRowCoord: inputTileCoordinate.x,
-      emptyTileColumnCoord: inputTileCoordinate.y,
-    };
-
-    return newBoard;
-  }
-
-  const isHorizontalMove = emptyTileCoordinates.x === inputTileCoordinate.x;
-  const distance = isHorizontalMove
-    ? emptyTileCoordinates.y - inputTileCoordinate.y
-    : emptyTileCoordinates.x - inputTileCoordinate.x;
-
-  const step = distance > 0 ? -1 : 1;
+  const start = isHorizontalMove
+    ? inputTileCoordinates.column
+    : inputTileCoordinates.row;
+  const end = isHorizontalMove
+    ? emptyTileCoordinates.column
+    : emptyTileCoordinates.row;
+  const step = start < end ? 1 : -1;
 
   if (isHorizontalMove) {
-    for (
-      let y = emptyTileCoordinates.y;
-      y != inputTileCoordinate.y;
-      y += step
-    ) {
-      const shiftedY = y + step;
-      newGrid[emptyTileCoordinates.x][y] =
-        board.grid[emptyTileCoordinates.x][shiftedY];
+    for (let column = end; column != start; column -= step) {
+      newGrid[emptyTileCoordinates.row][column] =
+        newGrid[emptyTileCoordinates.row][column - step];
     }
   } else {
-    for (
-      let x = emptyTileCoordinates.x;
-      x != inputTileCoordinate.x;
-      x += step
-    ) {
-      const shiftedX = x + step;
-      newGrid[x][emptyTileCoordinates.y] =
-        board.grid[shiftedX][emptyTileCoordinates.y];
+    for (let row = end; row != start; row -= step) {
+      newGrid[row][emptyTileCoordinates.column] =
+        newGrid[row - step][emptyTileCoordinates.column];
     }
   }
 
-  newGrid[inputTileCoordinate.x][inputTileCoordinate.y] =
-    board.grid[emptyTileCoordinates.x][emptyTileCoordinates.y];
+  newGrid[inputTileCoordinates.row][inputTileCoordinates.column] =
+    grid[emptyTileCoordinates.row][emptyTileCoordinates.column];
 
-  const newBoard: Board = {
+  return {
+    ...board,
     grid: newGrid,
-    rows: board.rows,
-    columns: board.columns,
-    emptyTileRowCoord: inputTileCoordinate.x,
-    emptyTileColumnCoord: inputTileCoordinate.y,
+    emptyTileCoordinates: inputTileCoordinates,
   };
-
-  return newBoard;
 }
 
 export function getNeighborCoordinates(
-  tile: TileCoordinates,
+  inputTile: TileCoordinates,
   emptyTile: TileCoordinates,
 ) {
   const neighborCoordinates: TileCoordinates[] = [];
 
-  if (tile.x === emptyTile.x) {
-    const startCoordinate = Math.min(tile.y, emptyTile.y) + 1;
-    const endCoordinate = Math.max(tile.y, emptyTile.y);
-    for (let y = startCoordinate; y < endCoordinate; y++) {
-      neighborCoordinates.push({ x: tile.x, y });
+  if (inputTile.row === emptyTile.row) {
+    const startColumn = Math.min(inputTile.column, emptyTile.column) + 1;
+    const endColumn = Math.max(inputTile.column, emptyTile.column);
+    for (let column = startColumn; column < endColumn; column++) {
+      neighborCoordinates.push({ row: inputTile.row, column: column });
     }
-  } else if (tile.y === emptyTile.y) {
-    const startCoordinate = Math.min(tile.x, emptyTile.x) + 1;
-    const endCoordinate = Math.max(tile.x, emptyTile.x);
-    for (let x = startCoordinate; x < endCoordinate; x++) {
-      neighborCoordinates.push({ x, y: tile.y });
+  } else if (inputTile.column === emptyTile.column) {
+    const startRow = Math.min(inputTile.row, emptyTile.row) + 1;
+    const endRow = Math.max(inputTile.row, emptyTile.row);
+    for (let row = startRow; row < endRow; row++) {
+      neighborCoordinates.push({ row: row, column: inputTile.column });
     }
   }
 
@@ -116,13 +75,12 @@ export function getNeighborCoordinates(
 }
 
 export function getTileCoordinatesForMove(
-  board: Board,
-  tileCoordinate: TileCoordinates,
+  tileCoordinates: TileCoordinates,
+  emptyTileCoordinates: TileCoordinates,
 ) {
-  const emptyTileCoordinates = getEmptyTileCoordinates(board);
   const neighborCoordinates = getNeighborCoordinates(
-    tileCoordinate,
+    tileCoordinates,
     emptyTileCoordinates,
   );
-  return [tileCoordinate, ...neighborCoordinates];
+  return [tileCoordinates, ...neighborCoordinates];
 }
