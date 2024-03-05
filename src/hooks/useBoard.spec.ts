@@ -14,7 +14,7 @@ describe("Tests for the useBoard hook", () => {
     });
   });
   test("Hook correctly shuffles the board at initialization and produces and unsolved board", () => {
-    expect(isSolved(result.current.board)).toBe(false);
+    expect(isSolved(result.current.board.grid)).toBe(false);
   });
   test("Hook returns correct game state for if the board is solved or not", () => {
     expect(result.current.isSolved).toBe(false);
