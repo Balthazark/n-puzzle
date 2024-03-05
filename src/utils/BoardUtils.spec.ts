@@ -7,6 +7,7 @@ import {
   initializeBoard,
   isBoardSolvable,
   isSolved,
+  makeBoardSolvable,
   shuffleBoard,
   shuffleTiles,
 } from "./BoardUtils";
@@ -414,6 +415,44 @@ describe("Test suite for board logic utils", () => {
       const shuffledBoard = shuffleBoard(board);
       expect(isSolved(shuffledBoard.grid)).toBe(false);
     });
+  });
+  describe("Tests for making board solvable", () => {
+    const unsolvableBoard: Board = {
+      grid: [
+        [
+          { value: 3, isEmpty: false },
+          { value: 9, isEmpty: false },
+          { value: 1, isEmpty: false },
+          { value: 15, isEmpty: false },
+        ],
+        [
+          { value: 14, isEmpty: false },
+          { value: 11, isEmpty: false },
+          { value: 4, isEmpty: false },
+          { value: 6, isEmpty: false },
+        ],
+
+        [
+          { value: 13, isEmpty: false },
+          { value: 16, isEmpty: true },
+          { value: 10, isEmpty: false },
+          { value: 12, isEmpty: false },
+        ],
+        [
+          { value: 2, isEmpty: false },
+          { value: 7, isEmpty: false },
+          { value: 8, isEmpty: false },
+          { value: 5, isEmpty: false },
+        ],
+      ],
+      rows: 4,
+      columns: 4,
+      emptyTileCoordinates: { row: 2, column: 1 },
+    };
+
+    expect(isBoardSolvable(unsolvableBoard)).toBe(false);
+    const solvableBoard = makeBoardSolvable(unsolvableBoard);
+    expect(isBoardSolvable(solvableBoard)).toBe(true);
   });
   describe("Some additional test for potential edge cases", () => {
     test("Initializes a 1x1 board correctly", () => {

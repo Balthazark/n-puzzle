@@ -137,3 +137,8 @@ export function shuffleBoard(board: Board): Board {
     emptyTileCoordinates: emptyTileCoordinates,
   };
 }
+
+export function makeBoardSolvable(board: Board) {
+  console.log("Not implemented", board);
+  return board;
+}
