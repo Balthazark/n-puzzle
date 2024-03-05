@@ -2,10 +2,8 @@ import { Board } from "../types/Board";
 import { TileCoordinates } from "../types/BoardTile";
 import { initializeBoard } from "./BoardUtils";
 import {
-  getEmptyTileCoordinates,
   isValidMove,
   getTileCoordinatesForMove,
-  isTileAdjacent,
   getNeighborCoordinates,
   moveTiles,
 } from "./TileUtils";
@@ -19,73 +17,81 @@ describe("Test suite for tile logic utils", () => {
   });
   describe("Tests for getting the empty tile coordinates in a board", () => {
     test("It returns the empty tile coordinates from a board", () => {
-      const emptyTileCoordinates = getEmptyTileCoordinates(board);
+      const { emptyTileCoordinates } = board;
       expect(emptyTileCoordinates).toEqual({
         row: 3,
         column: 3,
-      } as TileCoordinates);
+      });
     });
   });
   describe("Tests for validating that a tile is in the same column or row as the empty tile and thus can be moved", () => {
     test("Returns true for a tile that is in the same row or column as the empty row", () => {
-      const validMoveInColumn = isValidMove(board, {
+      const { emptyTileCoordinates } = board;
+      const validMoveInColumn = isValidMove(emptyTileCoordinates, {
         row: 3,
         column: 2,
-      } as TileCoordinates);
-      const validMoveInRow = isValidMove(board, {
+      });
+      const validMoveInRow = isValidMove(emptyTileCoordinates, {
         row: 2,
         column: 3,
-      } as TileCoordinates);
+      });
       expect(validMoveInColumn).toBe(true);
       expect(validMoveInRow).toBe(true);
     });
     test("Returns false for a tile that is in the same row or column as the empty row", () => {
-      const invalidMove = isValidMove(board, { column: 1, row: 1 });
+      const { emptyTileCoordinates } = board;
+      const invalidMove = isValidMove(emptyTileCoordinates, {
+        column: 1,
+        row: 1,
+      });
       expect(invalidMove).toBe(false);
     });
   });
   describe("Tests for getting the coordinates for the tiles to be moved", () => {
-    test("Returns true when two tile coordinates are adjacent", () => {
-      const coord1: TileCoordinates = { row: 2, column: 3 };
-      const coord2: TileCoordinates = { row: 2, column: 4 };
-      expect(isTileAdjacent(coord1, coord2)).toBe(true);
-    });
     test("Return the neighbor between a tile and the empty tile in a column", () => {
-      const emptyTile = getEmptyTileCoordinates(board);
+      const { emptyTileCoordinates } = board;
       const tile: TileCoordinates = { row: 0, column: 3 };
       const neighborCoordinates: TileCoordinates[] = [
         { row: 1, column: 3 },
         { row: 2, column: 3 },
       ];
-      const coordinates = getNeighborCoordinates(tile, emptyTile);
+      const coordinates = getNeighborCoordinates(tile, emptyTileCoordinates);
       expect(coordinates).toEqual(neighborCoordinates);
     });
 
     test("Return the neighbor between a tile and the empty tile in a row", () => {
-      const emptyTile = getEmptyTileCoordinates(board);
+      const { emptyTileCoordinates } = board;
       const tile: TileCoordinates = { row: 3, column: 0 };
       const neighborCoordinates: TileCoordinates[] = [
         { row: 3, column: 1 },
         { row: 3, column: 2 },
       ];
-      const coordinates = getNeighborCoordinates(tile, emptyTile);
+      const coordinates = getNeighborCoordinates(tile, emptyTileCoordinates);
       expect(coordinates).toEqual(neighborCoordinates);
     });
 
     test("Returns an array with the single coordinate for a single tile valid move", () => {
+      const { emptyTileCoordinates } = board;
       const inputTile: TileCoordinates = { row: 2, column: 3 };
       const tilesToMove: TileCoordinates[] = [{ row: 2, column: 3 }];
-      const coordinates = getTileCoordinatesForMove(board, inputTile);
+      const coordinates = getTileCoordinatesForMove(
+        inputTile,
+        emptyTileCoordinates,
+      );
       expect(coordinates).toEqual(tilesToMove);
     });
 
     test("Returns an array of tile coordinates for multiple tile valid moves", () => {
+      const { emptyTileCoordinates } = board;
       const inputTile: TileCoordinates = { row: 1, column: 3 };
       const tilesToMove: TileCoordinates[] = [
         { row: 1, column: 3 },
         { row: 2, column: 3 },
       ];
-      const coordinates = getTileCoordinatesForMove(board, inputTile);
+      const coordinates = getTileCoordinatesForMove(
+        inputTile,
+        emptyTileCoordinates,
+      );
       expect(coordinates).toEqual(tilesToMove);
     });
   });
@@ -121,7 +127,7 @@ describe("Test suite for tile logic utils", () => {
             { value: 9, isEmpty: false },
             { value: 10, isEmpty: false },
             { value: 11, isEmpty: false },
-            { value: 0, isEmpty: true },
+            { value: 16, isEmpty: true },
           ],
           [
             { value: 13, isEmpty: false },
@@ -154,7 +160,7 @@ describe("Test suite for tile logic utils", () => {
             { value: 5, isEmpty: false },
             { value: 6, isEmpty: false },
             { value: 7, isEmpty: false },
-            { value: 0, isEmpty: true },
+            { value: 16, isEmpty: true },
           ],
           [
             { value: 9, isEmpty: false },
@@ -173,13 +179,14 @@ describe("Test suite for tile logic utils", () => {
         columns: 4,
         emptyTileCoordinates: {
           row: 1,
-          column: 1,
+          column: 3,
         },
       };
       const newBoard = moveTiles(board, inputTile);
+      console.log("NEW BOARD", newBoard.grid);
       expect(newBoard).toEqual(expectedBoard);
     });
-    test("Moves multiple tiles and the empty tile vertically to the correct coordinates", () => {
+    test("Moves multiple tiles and the empty tile horizontally to the correct coordinates", () => {
       const inputTile: TileCoordinates = { row: 3, column: 0 };
       const expectedBoard: Board = {
         grid: [
@@ -202,7 +209,7 @@ describe("Test suite for tile logic utils", () => {
             { value: 12, isEmpty: false },
           ],
           [
-            { value: 0, isEmpty: true },
+            { value: 16, isEmpty: true },
             { value: 13, isEmpty: false },
             { value: 14, isEmpty: false },
             { value: 15, isEmpty: false },

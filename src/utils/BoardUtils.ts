@@ -2,13 +2,12 @@ import { Board } from "../types/Board";
 import { BoardTile, TileCoordinates } from "../types/BoardTile";
 
 export function calculateTaxicabDistance(
-  rows: number,
-  columns: number,
-  tileCoordinates: TileCoordinates,
+  startCoordinates: TileCoordinates,
+  endCoordinates: TileCoordinates,
 ) {
   return (
-    Math.abs(rows - 1 - tileCoordinates.row) +
-    Math.abs(columns - 1 - tileCoordinates.column)
+    Math.abs(startCoordinates.row - endCoordinates.row) +
+    Math.abs(startCoordinates.column - endCoordinates.column)
   );
 }
 
@@ -27,12 +26,15 @@ export function countInversions(grid: BoardTile[][]) {
 
 export function isBoardSolvable(board: Board) {
   const { grid, rows, columns, emptyTileCoordinates } = board;
+  const emptyTileGoalCoordinates: TileCoordinates = {
+    row: rows - 1,
+    column: columns - 1,
+  };
 
   const inversions = countInversions(grid);
   const taxicabDistance = calculateTaxicabDistance(
-    rows,
-    columns,
     emptyTileCoordinates,
+    emptyTileGoalCoordinates,
   );
 
   return (inversions + taxicabDistance) % 2 === 0;

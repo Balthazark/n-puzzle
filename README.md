@@ -72,9 +72,8 @@ Spec files will be collocated with the file for the respective functionality tha
 ## Assumptions
 
 - Reading up on the original 15 puzzle, I discovered that if tiles are a randomized, the game might end up in state that is not solvable, about half the time.
-  [Wikipedia reference](https://en.wikipedia.org/wiki/15_Puzzle) Thus I assume it to be a requirement that the puzzle is actually solvable.
-- At first I though about adding a util function for checking if the puzzle is solvable, that runs after trying to initialize the board. But I had some trouble verifying that the algorithm for checking solvability would work for boards of different row and column length. So I settled for another approach: Starting with a solved puzzle and making random moves to shuffle ensures all puzzle configurations are solvable, much how you would shuffle a Rubik's cube in real life. I assume that this will still fulfill the requirement of tiles being randomized.
-- To make use of union types, I assume that the empty tile has a value of 0.
+  [Wikipedia reference](https://en.wikipedia.org/wiki/15_Puzzle) Thus I assume it to be a requirement that the puzzle is actually solvable. The approach for checking solvability from the wiki page was used when implementing the isSolveAble function.
+- As the empty tiles "goal" position is in the lower right corner, I assume we can model it as having a value of 16 for ease of checking the puzzle is solved etc.
 
 ## Requirements
 
@@ -95,3 +94,5 @@ Spec files will be collocated with the file for the respective functionality tha
 - Planning and writing first draft for documentation: ~1h
 - Init and config project: ~1h
 - Set up CI/CD pipeline: ~30m
+- Writing test and implementing first version of models and logic: ~4h
+- Reworking models and logic, adding additional tests: ~4h

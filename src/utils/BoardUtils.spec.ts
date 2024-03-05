@@ -150,22 +150,43 @@ describe("Test suite for board logic utils", () => {
 
     test("Empty tile at bottom-right corner", () => {
       const emptyTileCoordinates: TileCoordinates = { row: 3, column: 3 };
+      const emptyTileGoalCoordinates: TileCoordinates = {
+        row: rows - 1,
+        column: columns - 1,
+      };
 
       expect(
-        calculateTaxicabDistance(rows, columns, emptyTileCoordinates),
+        calculateTaxicabDistance(
+          emptyTileCoordinates,
+          emptyTileGoalCoordinates,
+        ),
       ).toBe(0);
     });
     test("Empty tile at top-left corner", () => {
       const emptyTileCoordinates: TileCoordinates = { row: 0, column: 0 };
+      const emptyTileGoalCoordinates: TileCoordinates = {
+        row: rows - 1,
+        column: columns - 1,
+      };
       expect(
-        calculateTaxicabDistance(rows, columns, emptyTileCoordinates),
+        calculateTaxicabDistance(
+          emptyTileCoordinates,
+          emptyTileGoalCoordinates,
+        ),
       ).toBe(6);
     });
 
     test("Empty tile in the middle", () => {
       const emptyTileCoordinates: TileCoordinates = { row: 1, column: 2 };
+      const emptyTileGoalCoordinates: TileCoordinates = {
+        row: rows - 1,
+        column: columns - 1,
+      };
       expect(
-        calculateTaxicabDistance(rows, columns, emptyTileCoordinates),
+        calculateTaxicabDistance(
+          emptyTileCoordinates,
+          emptyTileGoalCoordinates,
+        ),
       ).toBe(3);
     });
   });
