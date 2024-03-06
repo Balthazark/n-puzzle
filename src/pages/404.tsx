@@ -11,7 +11,7 @@ const NotFoundPage = () => {
           Sorry 😔, we couldn’t find what you were looking for.
           <br />
           <br />
-          <Link to="/">Go home</Link>.
+          <Link to="/">Head back to n-puzzle</Link>
         </p>
       </main>
     </Layout>
