@@ -29,7 +29,7 @@ describe("Tests for the useBoard hook", () => {
     const { result } = renderHook(() => useBoard(4, 4));
     const oldBoard = result.current.board;
     act(() => {
-      result.current.handleRestartGame();
+      result.current.handleShuffleBoard();
     });
     expect(result.current.board).not.toEqual(oldBoard);
     expect(result.current.isBoardSolved).toBe(false);

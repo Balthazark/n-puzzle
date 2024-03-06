@@ -13,7 +13,7 @@ const useBoard = (rows: number, columns: number) => {
   );
   const [isBoardSolved, setIsBoardSolved] = useState(false);
 
-  const handleRestartGame = useCallback(() => {
+  const handleShuffleBoard = useCallback(() => {
     const shuffledBoard = shuffleBoard(board);
     setBoard(shuffledBoard);
     setIsBoardSolved(false);
@@ -30,7 +30,7 @@ const useBoard = (rows: number, columns: number) => {
     [board],
   );
 
-  return { board, isBoardSolved, handleRestartGame, handleMoveTiles };
+  return { board, isBoardSolved, handleShuffleBoard, handleMoveTiles };
 };
 
 export default useBoard;

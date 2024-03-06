@@ -24,7 +24,7 @@ describe("Unit tests for tile component", () => {
     expect(tileElement).toBeDisabled();
   });
 
-  test("calls onClick with the correct arguments when clicked", () => {
+  test("Calls onClick with the correct arguments when clicked", () => {
     const tileCoordinates = { row: 1, column: 2 };
     const mockHandleClickTyped = jest.fn() as jest.Mock<
       void,
