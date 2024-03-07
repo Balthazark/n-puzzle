@@ -7,5 +7,14 @@ export const GlobalStyle = createGlobalStyle`
     align-items: center;
     font-family: "Open Sans", sans-serif;
     margin: 0;
+    padding: 0;
+  }
+  p {
+    margin: 0;
+    padding: 0;
+  }
+  button {
+    margin: 0;
+    padding: 0;
   }
   `;
