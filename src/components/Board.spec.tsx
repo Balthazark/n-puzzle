@@ -36,7 +36,7 @@ describe("Unit tests for board component", () => {
   });
 });
 describe("Integration tests for board component", () => {
-  test("Clicking Shuffle Button shuffles the board", () => {
+  test("Clicking shuffle button shuffles the board", () => {
     const { container } = render(<Board rows={4} columns={4} />);
     const initialBoard = container.innerHTML;
     const shuffleButton = screen.getByRole("button", {
@@ -45,5 +45,14 @@ describe("Integration tests for board component", () => {
     fireEvent.click(shuffleButton);
     const shuffledBoard = container.innerHTML;
     expect(initialBoard).not.toEqual(shuffledBoard);
+  });
+  test("Win message is not rendered after doing a shuffle", () => {
+    render(<Board rows={4} columns={4} />);
+    const shuffleButton = screen.getByRole("button", {
+      name: /shuffle board/i,
+    });
+    fireEvent.click(shuffleButton);
+    const winMessage = screen.queryByText(/board solved/i);
+    expect(winMessage).not.toBeInTheDocument();
   });
 });
