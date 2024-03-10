@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-type StyledTileProps = Pick<TileProps, "isEmpty">;
+type StyledTileProps = {
+  $isEmpty: boolean;
+};
 
 const StyledTile = styled.button<StyledTileProps>`
   aspect-ratio: 1;
@@ -10,7 +12,7 @@ const StyledTile = styled.button<StyledTileProps>`
 
   &:hover {
     background-color: ${(props) =>
-      props.isEmpty ? "" : props.theme.colors.primaryAccent};
+      props.$isEmpty ? "" : props.theme.colors.primaryAccent};
     border: solid;
   }
 
@@ -28,7 +30,7 @@ type TileProps = {
 
 const Tile = ({ value, isEmpty, onClick }: TileProps) => {
   return (
-    <StyledTile onClick={onClick} disabled={isEmpty} isEmpty={isEmpty}>
+    <StyledTile onClick={onClick} disabled={isEmpty} $isEmpty={isEmpty}>
       {!isEmpty ? value : ""}
     </StyledTile>
   );
