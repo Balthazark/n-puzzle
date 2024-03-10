@@ -149,6 +149,7 @@ export const makeBoardSolvable = (board: Board): Board => {
   const solvableGrid = [...grid];
 
   if (solvableGrid[0][0].isEmpty || solvableGrid[0][1].isEmpty) {
+    //An unsolvable configuration of the n-puzzle game board can be made solvable by changing the parity
     const temp = solvableGrid[rows - 1][columns - 1];
     solvableGrid[rows - 1][columns - 1] = solvableGrid[rows - 1][columns - 2];
     solvableGrid[rows - 1][columns - 2] = temp;

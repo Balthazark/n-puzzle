@@ -19,31 +19,37 @@ export const moveTiles = (
   if (!isValidMove(emptyTileCoordinates, inputTileCoordinates)) {
     return board;
   }
+
+  //Deep copy the grid to avoid side effects
   const newGrid = grid.map((row) => row.map((tile) => ({ ...tile })));
 
+  //Check axis of movement
   const isHorizontalMove =
     emptyTileCoordinates.row === inputTileCoordinates.row;
 
+  //Get correct indices depending on the axis
   const start = isHorizontalMove
     ? inputTileCoordinates.column
     : inputTileCoordinates.row;
   const end = isHorizontalMove
     ? emptyTileCoordinates.column
     : emptyTileCoordinates.row;
+  // Determine the direction of movement based on the start and end positions
   const step = start < end ? 1 : -1;
 
   if (isHorizontalMove) {
     for (let column = end; column != start; column -= step) {
       newGrid[emptyTileCoordinates.row][column] =
-        newGrid[emptyTileCoordinates.row][column - step];
+        grid[emptyTileCoordinates.row][column - step];
     }
   } else {
     for (let row = end; row != start; row -= step) {
       newGrid[row][emptyTileCoordinates.column] =
-        newGrid[row - step][emptyTileCoordinates.column];
+        grid[row - step][emptyTileCoordinates.column];
     }
   }
 
+  //Assign the empty tile to the input tiles indices
   newGrid[inputTileCoordinates.row][inputTileCoordinates.column] =
     grid[emptyTileCoordinates.row][emptyTileCoordinates.column];
 
