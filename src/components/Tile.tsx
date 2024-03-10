@@ -18,19 +18,24 @@ const StyledTile = styled.button<StyledTileProps>`
 
   &:disabled {
     cursor: not-allowed;
-    opacity: 0.5;
+    opacity: 0.9;
   }
 `;
 
 type TileProps = {
   value: number;
   isEmpty: boolean;
+  isGameStarted: boolean;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-const Tile = ({ value, isEmpty, onClick }: TileProps) => {
+const Tile = ({ value, isEmpty, isGameStarted, onClick }: TileProps) => {
   return (
-    <StyledTile onClick={onClick} disabled={isEmpty} $isEmpty={isEmpty}>
+    <StyledTile
+      onClick={onClick}
+      disabled={isEmpty || !isGameStarted}
+      $isEmpty={isEmpty}
+    >
       {!isEmpty ? value : ""}
     </StyledTile>
   );

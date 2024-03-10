@@ -13,7 +13,12 @@ describe("Unit tests for tile component", () => {
     render(
       <ThemeProvider theme={lightTheme}>
         {" "}
-        <Tile value={tileValue} isEmpty={false} onClick={mockHandleClick} />
+        <Tile
+          value={tileValue}
+          isEmpty={false}
+          onClick={mockHandleClick}
+          isGameStarted={true}
+        />
       </ThemeProvider>,
     );
     const tileElement = screen.getByText("1");
@@ -26,7 +31,12 @@ describe("Unit tests for tile component", () => {
     render(
       <ThemeProvider theme={lightTheme}>
         {" "}
-        <Tile value={16} isEmpty={true} onClick={mockHandleClick} />
+        <Tile
+          value={16}
+          isEmpty={true}
+          onClick={mockHandleClick}
+          isGameStarted={true}
+        />
       </ThemeProvider>,
     );
     const tileElement = screen.getByRole("button");
@@ -46,6 +56,7 @@ describe("Unit tests for tile component", () => {
           value={5}
           isEmpty={false}
           onClick={() => mockHandleClickTyped(tileCoordinates)}
+          isGameStarted={true}
         />
       </ThemeProvider>,
     );
@@ -57,7 +68,12 @@ describe("Unit tests for tile component", () => {
     const mockHandleClick = jest.fn();
     render(
       <ThemeProvider theme={lightTheme}>
-        <Tile value={16} isEmpty={true} onClick={mockHandleClick} />
+        <Tile
+          value={16}
+          isEmpty={true}
+          onClick={mockHandleClick}
+          isGameStarted={true}
+        />
       </ThemeProvider>,
     );
     const tileElement = screen.getByRole("button");

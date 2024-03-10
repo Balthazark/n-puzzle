@@ -30,7 +30,7 @@ describe("Tests for the useBoard hook", () => {
     const { result } = renderHook(() => useBoard(4, 4));
     expect(result.current.isBoardSolved).toBe(true);
   });
-  test("Hook correctly stats the game and shuffles board", () => {
+  test("Hook correctly starts the game and shuffles board", () => {
     const { result } = renderHook(() => useBoard(4, 4));
     expect(result.current.isGameStarted).toBe(false);
     const oldBoard = result.current.board;

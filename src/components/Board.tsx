@@ -40,7 +40,7 @@ const WinMessage = styled.p`
   color: ${(props) => props.theme.colors.textSecondary};
 `;
 
-const ShuffleButton = styled.button`
+const StyledButton = styled.button`
   font-weight: bold;
   padding: 1rem;
   border-radius: 1rem;
@@ -57,8 +57,14 @@ type BoardProps = {
 };
 
 const Board = ({ rows, columns }: BoardProps) => {
-  const { board, handleMoveTiles, handleShuffleBoard, isBoardSolved } =
-    useBoard(rows, columns);
+  const {
+    board,
+    isGameStarted,
+    handleStartGame,
+    handleMoveTiles,
+    handleShuffleBoard,
+    isBoardSolved,
+  } = useBoard(rows, columns);
 
   return (
     <BoardWrapper>
@@ -69,6 +75,7 @@ const Board = ({ rows, columns }: BoardProps) => {
               key={`${rowIndex}-${columnIndex}`}
               value={tile.value}
               isEmpty={tile.isEmpty}
+              isGameStarted={isGameStarted}
               onClick={() =>
                 handleMoveTiles({ row: rowIndex, column: columnIndex })
               }
@@ -76,12 +83,16 @@ const Board = ({ rows, columns }: BoardProps) => {
           )),
         )}
       </BoardContainer>
-      {isBoardSolved && (
+      {isBoardSolved && isGameStarted && (
         <WinMessage aria-live="polite">
           Board Solved!🥳🎉<br></br>Shuffle the board to play again!
         </WinMessage>
       )}
-      <ShuffleButton onClick={handleShuffleBoard}>Shuffle Board</ShuffleButton>
+      {!isGameStarted ? (
+        <StyledButton onClick={handleStartGame}>Start Game</StyledButton>
+      ) : (
+        <StyledButton onClick={handleShuffleBoard}>Shuffle Board</StyledButton>
+      )}
     </BoardWrapper>
   );
 };
