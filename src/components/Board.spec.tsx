@@ -35,8 +35,10 @@ describe("Unit tests for board component", () => {
         columns: 4,
         emptyTileCoordinates: { row: 3, column: 3 },
       },
+      handleStartGame: jest.fn(),
       handleMoveTiles: jest.fn(),
       handleShuffleBoard: jest.fn(),
+      isGameStarted: true,
       isBoardSolved: true,
     });
     render(

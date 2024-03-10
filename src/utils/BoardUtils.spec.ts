@@ -5,7 +5,7 @@ import {
   countInversions,
   getNewEmptyTileCoords,
   initializeBoard,
-  initializeSolvableBoard,
+  getShuffledSolvableBoard,
   isBoardSolvable,
   isSolved,
   makeBoardSolvable,
@@ -477,34 +477,31 @@ describe("Test suite for board logic utils", () => {
       expect(isBoardSolvable(solvableBoard)).toBe(true);
     });
   });
-  describe("Tests for initializing a solvable and shuffled board", () => {
+  describe("Tests for generating a solvable and shuffled board", () => {
     test("Always returns a solvable board", () => {
       const rows = 2;
       const columns = 2;
       const attempts = 10;
 
       for (let i = 0; i < attempts; i++) {
-        const board = initializeSolvableBoard(rows + i, columns + i);
-        expect(isBoardSolvable(board)).toBe(true);
+        const board = initializeBoard(rows + i, columns + i);
+        const solvableBoard = getShuffledSolvableBoard(board);
+        expect(isBoardSolvable(solvableBoard)).toBe(true);
       }
       for (let i = 0; i < attempts; i++) {
-        const board = initializeSolvableBoard(rows + i, columns);
-        expect(isBoardSolvable(board)).toBe(true);
+        const board = initializeBoard(rows + i, columns);
+        const solvableBoard = getShuffledSolvableBoard(board);
+        expect(isBoardSolvable(solvableBoard)).toBe(true);
       }
       for (let i = 0; i < attempts; i++) {
-        const board = initializeSolvableBoard(rows, columns + i);
-        expect(isBoardSolvable(board)).toBe(true);
+        const board = initializeBoard(rows, columns + i);
+        const solvableBoard = getShuffledSolvableBoard(board);
+        expect(isBoardSolvable(solvableBoard)).toBe(true);
       }
     });
   });
 
   describe("Some additional test for potential edge cases", () => {
-    test("Initializes a 1x1 board correctly", () => {
-      const board = initializeBoard(1, 1);
-      expect(board.grid.length).toBe(1);
-      expect(board.grid[0].length).toBe(1);
-      expect(isSolved(board.grid)).toBe(true);
-    });
     test("It returns false for an almost solved board with the empty tile in the start position", () => {
       const board: Board = {
         grid: [

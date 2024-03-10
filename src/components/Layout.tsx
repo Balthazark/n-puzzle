@@ -5,12 +5,10 @@ import { ThemeProvider } from "styled-components";
 
 const Layout = (props: { children: ReactNode }) => {
   return (
-    <ThemeProvider theme={lightTheme}>
-      <React.Fragment>
-        <GlobalStyle />
-        {props.children}
-      </React.Fragment>
-    </ThemeProvider>
+    <React.Fragment>
+      <GlobalStyle />
+      <ThemeProvider theme={lightTheme}>{props.children}</ThemeProvider>
+    </React.Fragment>
   );
 };
 

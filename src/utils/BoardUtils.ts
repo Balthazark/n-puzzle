@@ -41,6 +41,11 @@ export function isBoardSolvable(board: Board) {
 }
 
 export function initializeBoard(rows: number, columns: number): Board {
+  if (rows < 2 || columns < 2) {
+    throw new Error(
+      "Not a valid board size, use a value equal or greater than 2 for rows and columns",
+    );
+  }
   const grid: BoardTile[][] = [];
 
   for (let i = 0; i < rows; i++) {
@@ -161,15 +166,8 @@ export function makeBoardSolvable(board: Board): Board {
   };
 }
 
-export function initializeSolvableBoard(rows: number, columns: number) {
-  if (rows < 2 || columns < 2) {
-    throw new Error(
-      "Not a valid board size, use a value equal or greater than 2 for rows and columns",
-    );
-  }
-
-  const solvedBoard = initializeBoard(rows, columns);
-  const shuffledBoard = shuffleBoard(solvedBoard);
+export function getShuffledSolvableBoard(board: Board) {
+  const shuffledBoard = shuffleBoard(board);
   const solvableBoard = isBoardSolvable(shuffledBoard)
     ? shuffledBoard
     : makeBoardSolvable(shuffledBoard);
