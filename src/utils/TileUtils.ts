@@ -1,17 +1,20 @@
 import { Board } from "../types/Board";
 import { TileCoordinates } from "../types/BoardTile";
 
-export function isValidMove(
+export const isValidMove = (
   emptyTileCoordinates: TileCoordinates,
   tileCoordinates: TileCoordinates,
-) {
+) => {
   return (
     emptyTileCoordinates.row === tileCoordinates.row ||
     emptyTileCoordinates.column === tileCoordinates.column
   );
-}
+};
 
-export function moveTiles(board: Board, inputTileCoordinates: TileCoordinates) {
+export const moveTiles = (
+  board: Board,
+  inputTileCoordinates: TileCoordinates,
+) => {
   const { grid, emptyTileCoordinates } = board;
   if (!isValidMove(emptyTileCoordinates, inputTileCoordinates)) {
     return board;
@@ -49,12 +52,12 @@ export function moveTiles(board: Board, inputTileCoordinates: TileCoordinates) {
     grid: newGrid,
     emptyTileCoordinates: inputTileCoordinates,
   };
-}
+};
 
-export function getNeighborCoordinates(
+export const getNeighborCoordinates = (
   inputTile: TileCoordinates,
   emptyTile: TileCoordinates,
-) {
+) => {
   const neighborCoordinates: TileCoordinates[] = [];
 
   if (inputTile.row === emptyTile.row) {
@@ -72,15 +75,15 @@ export function getNeighborCoordinates(
   }
 
   return neighborCoordinates;
-}
+};
 
-export function getTileCoordinatesForMove(
+export const getTileCoordinatesForMove = (
   tileCoordinates: TileCoordinates,
   emptyTileCoordinates: TileCoordinates,
-) {
+) => {
   const neighborCoordinates = getNeighborCoordinates(
     tileCoordinates,
     emptyTileCoordinates,
   );
   return [tileCoordinates, ...neighborCoordinates];
-}
+};
