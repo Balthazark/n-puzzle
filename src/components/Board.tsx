@@ -4,19 +4,15 @@ import Tile from "./Tile";
 import useBoard from "../hooks/useBoard";
 import { device } from "../styles/Breakpoints";
 
-type BoardProps = {
-  rows: number;
-  columns: number;
-};
-
 const BoardWrapper = styled.section`
-  background-color: aliceblue;
+  background-color: ${(props) => props.theme.colors.secondaryAccent};
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 1rem;
   gap: 1rem;
+  border-radius: 1rem;
 `;
 
 const BoardContainer = styled.section<BoardProps>`
@@ -36,6 +32,7 @@ const BoardContainer = styled.section<BoardProps>`
 const WinMessage = styled.p`
   text-align: center;
   font-size: clamp(1rem, 1vw + 0.5rem, 4rem);
+  color: ${(props) => props.theme.colors.textSecondary};
 `;
 
 const ShuffleButton = styled.button`
@@ -44,7 +41,15 @@ const ShuffleButton = styled.button`
   border-radius: 1rem;
   border-style: none;
   font-size: clamp(0.5rem, 1vw + 0.5rem, 2rem);
+  &:hover {
+    background-color: ${(props) => props.theme.colors.primaryAccent};
+  }
 `;
+
+type BoardProps = {
+  rows: number;
+  columns: number;
+};
 
 const Board = ({ rows, columns }: BoardProps) => {
   const { board, handleMoveTiles, handleShuffleBoard, isBoardSolved } =

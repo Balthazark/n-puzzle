@@ -3,15 +3,25 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Board from "./Board";
 import * as useBoard from "../hooks/useBoard";
+import { ThemeProvider } from "styled-components";
+import { lightTheme } from "../styles/Themes";
 
 describe("Unit tests for board component", () => {
   test("Board component renders correct number of tiles and shuffle button", () => {
-    render(<Board rows={4} columns={4} />);
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <Board rows={4} columns={4} />
+      </ThemeProvider>,
+    );
     const tiles = screen.getAllByRole("button");
     expect(tiles).toHaveLength(17);
   });
   test("Board renders shuffle button correctly", () => {
-    render(<Board rows={4} columns={4} />);
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <Board rows={4} columns={4} />
+      </ThemeProvider>,
+    );
     const shuffleButton = screen.getByRole("button", {
       name: /shuffle board/i,
     });
@@ -29,7 +39,11 @@ describe("Unit tests for board component", () => {
       handleShuffleBoard: jest.fn(),
       isBoardSolved: true,
     });
-    render(<Board rows={4} columns={4} />);
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <Board rows={4} columns={4} />
+      </ThemeProvider>,
+    );
     const winMessage = screen.getByText(/board solved/i);
     expect(winMessage).toBeInTheDocument();
     mockUseBoard.mockRestore();
@@ -37,7 +51,11 @@ describe("Unit tests for board component", () => {
 });
 describe("Integration tests for board component", () => {
   test("Clicking shuffle button shuffles the board", () => {
-    const { container } = render(<Board rows={4} columns={4} />);
+    const { container } = render(
+      <ThemeProvider theme={lightTheme}>
+        <Board rows={4} columns={4} />
+      </ThemeProvider>,
+    );
     const initialBoard = container.innerHTML;
     const shuffleButton = screen.getByRole("button", {
       name: /shuffle board/i,
@@ -47,7 +65,11 @@ describe("Integration tests for board component", () => {
     expect(initialBoard).not.toEqual(shuffledBoard);
   });
   test("Win message is not rendered after doing a shuffle", () => {
-    render(<Board rows={4} columns={4} />);
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <Board rows={4} columns={4} />
+      </ThemeProvider>,
+    );
     const shuffleButton = screen.getByRole("button", {
       name: /shuffle board/i,
     });
