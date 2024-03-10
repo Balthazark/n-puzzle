@@ -35,6 +35,7 @@ const Tile = ({ value, isEmpty, isGameStarted, onClick }: TileProps) => {
       onClick={onClick}
       disabled={isEmpty || !isGameStarted}
       $isEmpty={isEmpty}
+      aria-label={isEmpty ? "Empty Tile" : `Tile ${value}`}
     >
       {!isEmpty ? value : ""}
     </StyledTile>

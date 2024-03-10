@@ -91,7 +91,7 @@ describe("Integration tests for board component", () => {
     });
     fireEvent.click(startGameButton);
     const buttons = screen.getAllByRole("button");
-    const emptyTileButton = screen.getByRole("button", { name: "" });
+    const emptyTileButton = screen.getByRole("button", { name: /empty tile/i });
     const buttonsWithoutEmptyTile = buttons.filter(
       (button) => button !== emptyTileButton,
     );

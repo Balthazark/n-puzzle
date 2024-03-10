@@ -24,13 +24,16 @@ const BoardContainer = styled.section<StyledBoardProps>`
   display: grid;
   grid-template-columns: repeat(${(props) => props.$columns}, 1fr);
   place-self: center;
-  width: min(60vw, calc(60vh * ${(props) => props.$columns / props.$rows}));
-  height: min(60vh, calc(60vw * ${(props) => props.$rows / props.$columns}));
+  width: min(60svw, calc(60vh * ${(props) => props.$columns / props.$rows}));
+  height: min(60svh, calc(60vw * ${(props) => props.$rows / props.$columns}));
   aspect-ratio: ${(props) => props.$columns / props.$rows};
 
   @media ${device.sm} {
-    width: min(50vw, calc(50vh * ${(props) => props.$columns / props.$rows}));
-    height: min(50vh, calc(50vw * ${(props) => props.$rows / props.$columns}));
+    width: min(50svw, calc(50svh * ${(props) => props.$columns / props.$rows}));
+    height: min(
+      50svh,
+      calc(50svw * ${(props) => props.$rows / props.$columns})
+    );
   }
 `;
 
@@ -89,9 +92,13 @@ const Board = ({ rows, columns }: BoardProps) => {
         </WinMessage>
       )}
       {!isGameStarted ? (
-        <StyledButton onClick={handleStartGame}>Start Game</StyledButton>
+        <StyledButton onClick={handleStartGame} aria-label="Start Game">
+          Start Game
+        </StyledButton>
       ) : (
-        <StyledButton onClick={handleShuffleBoard}>Shuffle Board</StyledButton>
+        <StyledButton onClick={handleShuffleBoard} aria-label="Shuffle Board">
+          Shuffle Board
+        </StyledButton>
       )}
     </BoardWrapper>
   );
