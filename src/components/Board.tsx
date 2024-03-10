@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Tile from "./Tile";
 import useBoard from "../hooks/useBoard";
+import { device } from "../styles/Breakpoints";
 
 type BoardProps = {
   rows: number;
@@ -14,30 +15,35 @@ const BoardWrapper = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100dvw;
-  height: 100dvh;
-  gap: 1em;
+  padding: 1rem;
+  gap: 1rem;
 `;
 
 const BoardContainer = styled.section<BoardProps>`
   display: grid;
   grid-template-columns: repeat(${(props) => props.columns}, 1fr);
   place-self: center;
-  width: ${(props) =>
-    props.columns / props.rows <= 1
-      ? `min(80vw, calc(80vh * ${props.columns / props.rows}))`
-      : `min(80vh * ${props.columns / props.rows}, 80vw)`};
-
-  border: 1px solid black;
+  width: min(60vw, calc(60vh * ${(props) => props.columns / props.rows}));
+  height: min(60vh, calc(60vw * ${(props) => props.rows / props.columns}));
   aspect-ratio: ${(props) => props.columns / props.rows};
+
+  @media ${device.sm} {
+    width: min(50vw, calc(50vh * ${(props) => props.columns / props.rows}));
+    height: min(50vh, calc(50vw * ${(props) => props.rows / props.columns}));
+  }
 `;
 
 const WinMessage = styled.p`
-  font-size: 2vmin;
+  text-align: center;
+  font-size: clamp(1rem, 1vw + 0.5rem, 4rem);
 `;
 
 const ShuffleButton = styled.button`
-  font-size: 2vmin;
+  font-weight: bold;
+  padding: 1rem;
+  border-radius: 1rem;
+  border-style: none;
+  font-size: clamp(0.5rem, 1vw + 0.5rem, 2rem);
 `;
 
 const Board = ({ rows, columns }: BoardProps) => {

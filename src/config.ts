@@ -1,2 +1,2 @@
-export const ROWS = 10;
-export const COLUMNS = 2;
+export const ROWS = 6;
+export const COLUMNS = 6;

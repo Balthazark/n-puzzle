@@ -6,14 +6,9 @@ export const GlobalStyle = createGlobalStyle`
     justify-content: center;
     align-items: center;
     font-family: "Open Sans", sans-serif;
-    margin: 0;
-    padding: 0;
   }
-  p {
-    margin: 0;
-    padding: 0;
-  }
-  button {
+    * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
   }

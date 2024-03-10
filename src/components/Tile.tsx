@@ -11,10 +11,8 @@ type StyledTileProps = Pick<TileProps, "isEmpty">;
 
 const StyledTile = styled.button<StyledTileProps>`
   aspect-ratio: 1;
-  font-size: 2vmin;
-  border-radius: 0;
-  box-shadow: none;
-  border: 1px solid black;
+  font-weight: bold;
+  font-size: clamp(0.5rem, 1vw + 0.5rem, 2rem);
 `;
 
 const Tile = ({ value, isEmpty, onClick }: TileProps) => {
