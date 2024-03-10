@@ -1,6 +1,26 @@
 import React from "react";
 import styled from "styled-components";
 
+type TileProps = {
+  value: number;
+  isEmpty: boolean;
+  isGameStarted: boolean;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+
+const Tile = ({ value, isEmpty, isGameStarted, onClick }: TileProps) => {
+  return (
+    <StyledTile
+      onClick={onClick}
+      disabled={isEmpty || !isGameStarted}
+      $isEmpty={isEmpty}
+      aria-label={isEmpty ? "Empty Tile" : `Tile ${value}`}
+    >
+      {!isEmpty ? value : ""}
+    </StyledTile>
+  );
+};
+
 type StyledTileProps = {
   $isEmpty: boolean;
 };
@@ -18,22 +38,8 @@ const StyledTile = styled.button<StyledTileProps>`
 
   &:disabled {
     cursor: not-allowed;
-    opacity: 0.5;
+    opacity: 0.9;
   }
 `;
-
-type TileProps = {
-  value: number;
-  isEmpty: boolean;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
-};
-
-const Tile = ({ value, isEmpty, onClick }: TileProps) => {
-  return (
-    <StyledTile onClick={onClick} disabled={isEmpty} $isEmpty={isEmpty}>
-      {!isEmpty ? value : ""}
-    </StyledTile>
-  );
-};
 
 export default Tile;

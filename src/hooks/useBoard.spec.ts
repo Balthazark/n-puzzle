@@ -17,13 +17,29 @@ describe("Tests for the useBoard hook", () => {
       expect(row.length).toBe(4);
     });
   });
-  test("Hook correctly shuffles the board at initialization and produces an unsolved board", () => {
+  test("Hook correctly generates a deterministic solved board at start to avoid hydration errors", () => {
     const { result } = renderHook(() => useBoard(4, 4));
-    expect(boardUtils.isSolved(result.current.board.grid)).toBe(false);
+    expect(boardUtils.isSolved(result.current.board.grid)).toBe(true);
+  });
+  test("Hook returns correct game state for an initial solved board before the game has been started", () => {
+    const { result } = renderHook(() => useBoard(4, 4));
+    expect(result.current.isBoardSolved).toBe(true);
+    expect(result.current.isGameStarted).toBe(false);
   });
   test("Hook returns correct game state for if the board is solved or not", () => {
     const { result } = renderHook(() => useBoard(4, 4));
+    expect(result.current.isBoardSolved).toBe(true);
+  });
+  test("Hook correctly starts the game and shuffles board", () => {
+    const { result } = renderHook(() => useBoard(4, 4));
+    expect(result.current.isGameStarted).toBe(false);
+    const oldBoard = result.current.board;
+    act(() => {
+      result.current.handleStartGame();
+    });
+    expect(result.current.board).not.toEqual(oldBoard);
     expect(result.current.isBoardSolved).toBe(false);
+    expect(result.current.isGameStarted).toBe(true);
   });
   test("Hook correctly reshuffles the board", () => {
     const { result } = renderHook(() => useBoard(4, 4));
@@ -36,7 +52,7 @@ describe("Tests for the useBoard hook", () => {
   });
   test("Hook correctly moves tiles and successfully updates the isBoardSolved state ", () => {
     jest
-      .spyOn(boardUtils, "initializeSolvableBoard")
+      .spyOn(boardUtils, "getShuffledSolvableBoard")
       .mockImplementationOnce(() => ({
         grid: [
           [

@@ -13,7 +13,6 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
   }
   button {
-    box-shadow: none;
     cursor: pointer;
   }
   `;

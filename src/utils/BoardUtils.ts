@@ -1,17 +1,17 @@
 import { Board } from "../types/Board";
 import { BoardTile, TileCoordinates } from "../types/BoardTile";
 
-export function calculateTaxicabDistance(
+export const calculateTaxicabDistance = (
   startCoordinates: TileCoordinates,
   endCoordinates: TileCoordinates,
-) {
+) => {
   return (
     Math.abs(startCoordinates.row - endCoordinates.row) +
     Math.abs(startCoordinates.column - endCoordinates.column)
   );
-}
+};
 
-export function countInversions(grid: BoardTile[][]) {
+export const countInversions = (grid: BoardTile[][]) => {
   let inversionCount = 0;
   const flatTiles = grid.flat();
   for (let i = 0; i < flatTiles.length - 1; i++) {
@@ -22,9 +22,9 @@ export function countInversions(grid: BoardTile[][]) {
     }
   }
   return inversionCount;
-}
+};
 
-export function isBoardSolvable(board: Board) {
+export const isBoardSolvable = (board: Board) => {
   const { grid, rows, columns, emptyTileCoordinates } = board;
   const emptyTileGoalCoordinates: TileCoordinates = {
     row: rows - 1,
@@ -38,9 +38,14 @@ export function isBoardSolvable(board: Board) {
   );
 
   return (inversions + taxicabDistance) % 2 === 0;
-}
+};
 
-export function initializeBoard(rows: number, columns: number): Board {
+export const initializeBoard = (rows: number, columns: number): Board => {
+  if (rows < 2 || columns < 2) {
+    throw new Error(
+      "Not a valid board size, use a value equal or greater than 2 for rows and columns",
+    );
+  }
   const grid: BoardTile[][] = [];
 
   for (let i = 0; i < rows; i++) {
@@ -74,9 +79,9 @@ export function initializeBoard(rows: number, columns: number): Board {
   };
 
   return { grid, rows, columns, emptyTileCoordinates };
-}
+};
 
-export function isSolved(grid: BoardTile[][]): boolean {
+export const isSolved = (grid: BoardTile[][]): boolean => {
   const flatTiles = grid.flat();
   for (let i = 0; i < flatTiles.length - 1; i++) {
     if (flatTiles[i].value !== i + 1) {
@@ -84,9 +89,9 @@ export function isSolved(grid: BoardTile[][]): boolean {
     }
   }
   return true;
-}
+};
 
-export function shuffleTiles(tiles: BoardTile[]) {
+export const shuffleTiles = (tiles: BoardTile[]) => {
   const shuffledTiles = [...tiles];
 
   for (let i = shuffledTiles.length - 1; i > 0; i--) {
@@ -95,13 +100,13 @@ export function shuffleTiles(tiles: BoardTile[]) {
   }
 
   return shuffledTiles;
-}
+};
 
-export function getNewEmptyTileCoords(
+export const getNewEmptyTileCoords = (
   grid: BoardTile[][],
   rows: number,
   columns: number,
-): TileCoordinates {
+): TileCoordinates => {
   for (let row = 0; row < rows; row++) {
     for (let column = 0; column < columns; column++) {
       if (grid[row][column].isEmpty) {
@@ -110,9 +115,9 @@ export function getNewEmptyTileCoords(
     }
   }
   throw new Error("Empty tile not found.");
-}
+};
 
-export function shuffleBoard(board: Board): Board {
+export const shuffleBoard = (board: Board): Board => {
   const { grid, rows, columns } = board;
 
   const flatTiles = grid.flat();
@@ -137,13 +142,14 @@ export function shuffleBoard(board: Board): Board {
     grid: shuffledGrid,
     emptyTileCoordinates: emptyTileCoordinates,
   };
-}
+};
 
-export function makeBoardSolvable(board: Board): Board {
+export const makeBoardSolvable = (board: Board): Board => {
   const { grid, rows, columns } = board;
   const solvableGrid = [...grid];
 
-  if (solvableGrid[0][0].isEmpty && solvableGrid[0][1].isEmpty) {
+  if (solvableGrid[0][0].isEmpty || solvableGrid[0][1].isEmpty) {
+    //An unsolvable configuration of the n-puzzle game board can be made solvable by changing the parity
     const temp = solvableGrid[rows - 1][columns - 1];
     solvableGrid[rows - 1][columns - 1] = solvableGrid[rows - 1][columns - 2];
     solvableGrid[rows - 1][columns - 2] = temp;
@@ -159,20 +165,13 @@ export function makeBoardSolvable(board: Board): Board {
     ...board,
     grid: solvableGrid,
   };
-}
+};
 
-export function initializeSolvableBoard(rows: number, columns: number) {
-  if (rows < 2 || columns < 2) {
-    throw new Error(
-      "Not a valid board size, use a value equal or greater than 2 for rows and columns",
-    );
-  }
-
-  const solvedBoard = initializeBoard(rows, columns);
-  const shuffledBoard = shuffleBoard(solvedBoard);
+export const getShuffledSolvableBoard = (board: Board) => {
+  const shuffledBoard = shuffleBoard(board);
   const solvableBoard = isBoardSolvable(shuffledBoard)
     ? shuffledBoard
     : makeBoardSolvable(shuffledBoard);
 
   return solvableBoard;
-}
+};
