@@ -31,6 +31,8 @@ gatsby serve
 
 I used the latest at the time LTS version of node: '21.6.1'. If there are any difficulties with the running the project I could gladly provide a Docker image as well!
 
+You can change the amount of columns and rows in the config.ts file. OBS: You have to do a manual page refresh after changing the constants, I unfortunately could not figure out why the page does not rerender correctly during hot module reloading here.
+
 ## Personal goals ⭐
 
 - To showcase as much of my skill set as possible within the scope of the code test.
@@ -46,16 +48,18 @@ I used the latest at the time LTS version of node: '21.6.1'. If there are any di
 ## Technical solutions I am satisfied with
 
 - I am really happy about the test coverage in the code base.
-- I am also satisfied with how the dependencies within the project are set up. The types acts as the models, the util functions encapsulate the business logic of the game, the custom hook provides a clear interface for the UI to hook into the business logic so that the the react components do not have to depend on implementation details and just rerenders when new data is provided as props.
+- I am also satisfied with how the dependencies within the project are set up. The types acts as the models, the util functions encapsulate the business logic of the game, the custom hook provides a clear interface for the UI to hook into the business logic so that the the react components do not have to depend on implementation details and just rerenders when new data is provided as props. The clear distinctions between the different modules of the code base also made test driven development a lot easier.
 - The CI pipeline was really helpful for enforcing code quality before every PR merge.
 - Im am satisfied with the structure of the code base where tests are co-located with either their functions or components. For now I co-located the styles within the components, as I myself prefer to have easy access to styles scoped to components. But the styles could also be moved to designated style files if preferred very easily. Styles were also placed at the bottom due to JavaScripts function hoisting capabilities, which provides easy access to React part of the components.
+- Through the CD process I also noted that the page had hydration errors that only showed up after building the project, which was quite hard to debug. But after some pondering I figured out that it had to be tied to that the initial state of board was randomized. To solve this I set the initial state to a solved board for deterministic rendering and added functionality for starting the game instead with a randomized board. This went very smoothly due to the modular approach of the code base.
 - Im also happy about focusing on accessability, something very new for me but something I really want to learn more about!
 
 ## Difficulties and opportunities for improvement
 
 - Some edge cases I noted at the end of development are that the util function for getting a new board could end up generating either the same board or a solved board. Due to the statistical low risk of this happening, I decided to leave this as is as I would either have to turn to recursion or reassignment and a while loop to solve this, thus introducing more complexity.
-- Doing responsive design in combination with the requirement of dynamic values for the amount of columns and rows proved to very tricky! I settled for handling this with view port units in combination with the calc, clamp and min css function , which feels like it might not be the optimal approach. But it was the best solution I could produce for now. Would love to talk and learn more about this!
+- Doing responsive design in combination with the requirement of dynamic values for the amount of columns and rows proved to very tricky! I settled for handling this with view port units in combination with the calc, clamp and min css function , which feels like it might not be the optimal approach. But it was the best solution I could produce for now. Would love to talk and learn more about this! The current approach seem work fine up to about a value of 12 for most screen sizes when testing this manually through Chromes dev tools.
 - Some of the util functions could definitely be optimized in time complexity, but due to the grid not being very large I settled with current implementations for now.
+- Writing test that interact with randomness was also a bit tricky, and I would like to further discuss how do integration tests when the DOM changes for every test.
 - During the lighthouse audit, I saw some potential for improvement in CLS, that I would also love to discuss on how to improve upon! The site also gets flagged for missing a meta description for SEO. From what I can see I have configured the project to provide this, and thus I would happily hear more about on how to tackle this.
 
 ### Framework and Libraries
