@@ -7,7 +7,6 @@ const config: GatsbyConfig = {
   },
   plugins: [
     `gatsby-plugin-styled-components`,
-    `gatsby-plugin-minify`,
     {
       resolve: "gatsby-plugin-html-attributes",
       options: {

@@ -60,7 +60,8 @@ You can change the amount of columns and rows in the config.ts file. OBS: You ha
 - Doing responsive design in combination with the requirement of dynamic values for the amount of columns and rows proved to very tricky! I settled for handling this with view port units in combination with the calc, clamp and min css function , which feels like it might not be the optimal approach. But it was the best solution I could produce for now. Would love to talk and learn more about this! The current approach seem work fine up to about a value of 12 for most screen sizes when testing this manually through Chromes dev tools.
 - Some of the util functions could definitely be optimized in time complexity, but due to the grid not being very large I settled with current implementations for now.
 - Writing test that interact with randomness was also a bit tricky, and I would like to further discuss how do integration tests when the DOM changes for every test.
-- During the lighthouse audit, I saw some potential for improvement in CLS, that I would also love to discuss on how to improve upon! The site also gets flagged for missing a meta description for SEO. From what I can see I have configured the project to provide this, and thus I would happily hear more about on how to tackle this.
+- During the lighthouse audit the site gets flagged for missing a meta description for SEO. From what I can see I have configured the project to provide this, and thus I would happily hear more about on how to tackle this.
+- End to end testing using Playwright or Cypress would be nice to add as well, but due to only having 2 routes I settled for component testing.
 
 ### Framework and Libraries
 
@@ -122,7 +123,7 @@ Spec files will be collocated with the file for the respective functionality tha
 
 ### Responsive Design
 
-- A mobile-first approach is intended to be used, ensuring the application is accessible and user-friendly on mobile devices, using modern CSS such as flex box, clamp, calc and media queries for adjusting layout and typography if needed. Relational units were also used to accommodate users changing their font settings in their browsers.
+- A mobile-first approach is intended to be used, ensuring the application is accessible and user-friendly on mobile devices, using modern CSS such as flex box, clamp, calc and media queries for adjusting layout. Relational units were also used to accommodate users changing their font settings in their browsers.
 
 ## Assumptions
 
